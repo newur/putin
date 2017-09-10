@@ -1,0 +1,1 @@
+// TODO write code that selects URLs of all photos
