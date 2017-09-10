@@ -1,7 +1,7 @@
 // fill in your username and password for google services
 
-const username = '';
-const password = '';
+const username = process.argv[2];
+const password = process.argv[3];
 const googleAlbumUrl = 'https://photos.google.com/albums';
 
 var webdriver = require('selenium-webdriver'),
@@ -12,7 +12,9 @@ var driver = new webdriver.Builder()
     .forBrowser(webdriver.Browser.FIREFOX)
     .build();
 
-async function asyncWrapper() {
+login();
+
+async function login() {
    
   driver.get(googleAlbumUrl);
 
@@ -35,5 +37,3 @@ async function asyncWrapper() {
   //pwdVisible.sendKeys(webdriver.Key.ENTER);
 
 }
-
-asyncWrapper();

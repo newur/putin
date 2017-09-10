@@ -10,6 +10,28 @@ var download = function(uri, filename, callback){
   });
 };
 
-download('https://lh3.googleusercontent.com/_6UGSpkApZnb6jAJSqCifNAQcpDhHTKHTJ48HmlCHmwuWBgGHM7d5DQ8g7dKKSauo6MSp12XUVDr2T6JNzdUoaDqLN2ErhLijobCxouT5oIZzlT2L-79p4H7EEOuO9Y8FyjJGKtDreR1D33i1H7bUDsPOEXSy68Sqn4QBRE5Trcp_xXGKPUQ4mTI0mNMEY6IKJ3Oei7FpLBrrB1XP7bmHhSFMRxgs7LJoUGH-Ctq5svyTbqAGkh30HtXjKUHR6a8yGHlZIkS5-ClJ2KNlAYbmkGNmkJgt2XP2sb6U3psegxVhwFFojcMdrr9pTGDqfQ1g4NzztJd0bKVne_Z2vYdhhyI9kG0NlgM5zaOUiLfgow6WHyxoJxjD9i94VgNVgAs0wTVKv0ApT2UuRaaVW-IlN5w331RtDMEF2tCpnDewDKrd2CGVvZzH-DsDAm7m-fklc-kKlEwgN2_h8Xdc6VxZMI-P42jPEhSA6BIB-iPT4YB3vX47W6Q-7dh2pMuuNN5nQ8_M7mbv27m5UtLuDDzYoDWPFDXAgihHaxexDYPTu7V8tb2IlOZAGX6Feyu87rrN9aaVpiCGUa6xVbXpHtbTE0U7r8yPybKBjK_voKKYDB0UEjFVNPD=w700-h466-no', 'hussler_01.jpg', function(){
-  console.log('done');
-});
+//download('https://lh3.googleusercontent.com/Tu96LycAvP8bFOVG4NRBUrIBsELKx6mRWSJyXWRi7WcaFAIh6KUHunF6YnNdJ8xm9WgHNntjpJAUxE-RGIdeNHDQSuaC_BRRrjsl6LzxDHevojhy58pxK9Wlbq8bOUHQR8V8HTJ3QPiYNDqCPkaP9fQ-8LigZ42Vjnq7lYPFnTkEO3maUowmBIdlznZl22iDiaQp9ibJRrPcVDhRUr2cv83083CCPSH4lrW74ul_IJZKiT9C_GJFjgA8refLqDHeddtQi_IHcALHHEaW-O_X7hQpOr_FqSf2FkBt5zDI9FflH8dtZ439Nsq9JsStDtYA66nIkm9mRc9hOmPKuFsJqzeSBUN6a54reBzKGO0ew8MBc8_Cr64fZC0hDscWtIsm4CRgrox-xB0xsQtYodfpt29MJwRH2efE9kxfuNTd1hUP__K70r7btVYEuwmfxwKZZv5-lrSCVDNXKEwT-HbsavwcLu_hAVxdiwiuCGU8JQu8-bwhSVDc8kQ0P5wNIRgIrZPECZxMvdIWWRyjAqhQLzo7skUELh-VOUliWOAD1n-H53PwSF63XD-qr2xMnwp9uq85rv3Hi-7J_JCCRYQs9wyRyeXXx-2ozUmQ47S8JcfKenXZtyt1', 'hussler_01.jpg', function(){
+//  console.log('done');
+//});
+
+var urls = ['https://lh3.googleusercontent.com/Tu96LycAvP8bFOVG4NRBUrIBsELKx6mRWSJyXWRi7WcaFAIh6KUHunF6YnNdJ8xm9WgHNntjpJAUxE-RGIdeNHDQSuaC_BRRrjsl6LzxDHevojhy58pxK9Wlbq8bOUHQR8V8HTJ3QPiYNDqCPkaP9fQ-8LigZ42Vjnq7lYPFnTkEO3maUowmBIdlznZl22iDiaQp9ibJRrPcVDhRUr2cv83083CCPSH4lrW74ul_IJZKiT9C_GJFjgA8refLqDHeddtQi_IHcALHHEaW-O_X7hQpOr_FqSf2FkBt5zDI9FflH8dtZ439Nsq9JsStDtYA66nIkm9mRc9hOmPKuFsJqzeSBUN6a54reBzKGO0ew8MBc8_Cr64fZC0hDscWtIsm4CRgrox-xB0xsQtYodfpt29MJwRH2efE9kxfuNTd1hUP__K70r7btVYEuwmfxwKZZv5-lrSCVDNXKEwT-HbsavwcLu_hAVxdiwiuCGU8JQu8-bwhSVDc8kQ0P5wNIRgIrZPECZxMvdIWWRyjAqhQLzo7skUELh-VOUliWOAD1n-H53PwSF63XD-qr2xMnwp9uq85rv3Hi-7J_JCCRYQs9wyRyeXXx-2ozUmQ47S8JcfKenXZtyt1'];
+
+
+function downloads(urls) {
+	console.log('downloads');
+	for(var i = 0; i < urls.length; i++) {
+		download(urls[i], 'image' + i, () => console.log('saved file ' + i));
+	}
+	console.log('downloads done');
+}
+
+function download(uri, filename, callback){
+  request.head(uri, function(err, res, body){
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
+
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+  });
+};
+
+downloads(urls);

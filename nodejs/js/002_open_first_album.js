@@ -14,20 +14,14 @@ var driver = new webdriver.Builder()
     .setFirefoxOptions(new firefox.Options().setProfile(profile))
     .build();
 
-test();
+openFirstAlbum();
 
-async function test() {
-driver.get('https://photos.google.com/albums');
+async function openFirstAlbum() {
+	driver.get('https://photos.google.com/albums');
 
-await driver.sleep(1000);
-var albums = await driver.findElements(By.className('MTmRkb'));
-albums[1].click();
+	await driver.sleep(1000);
+	var albums = await driver.findElements(By.className('MTmRkb'));
+	albums[1].click();
 
-await driver.sleep(1000);
-var albums = await driver.findElements(By.className('rtIMgb'));
-albums[0].click();
-
+	await driver.sleep(1000);
 }
-
-
-// TODO get URLs of pictures and download if possible
