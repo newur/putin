@@ -30,3 +30,20 @@ hs_err_pid*
 ######################
 # Dependency directories
 node_modules/
+
+# Eclipse
+.classpath
+.project
+.settings/
+ 
+# Intellij
+.idea/
+*.iml
+*.iws
+ 
+# Mac
+.DS_Store
+ 
+# Maven
+log/
+target/
