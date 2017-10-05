@@ -33,3 +33,9 @@ Navigate into the 'nodejs' folder and run 'npm install'. This will install requi
 Some files require a mozilla profile called 'selenium' with a valid login cookie for google album. This is currently the only way to avoid a login before every test run  (which can be annoyingly slow). How to create a firefox profile: https://support.mozilla.org/en-US/kb/profile-manager-create-and-remove-firefox-profiles
 
 If your internet connection is very slow, some functions might fail.
+
+## Google Calendar Support
+
+###Prerequisites
+1.Generate a Google Client ID and Client Secret
+* Go to https://console.developers.google.com/projectselector/apis/credentials
