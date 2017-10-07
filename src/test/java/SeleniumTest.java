@@ -1,4 +1,5 @@
 import com.putin.utils.GeckoDriverFinder;
+import com.putin.utils.StringTransformer;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Created by ruwen on 03.10.17.
@@ -51,6 +53,16 @@ public class SeleniumTest {
         if (albums.size() > 1) {
             albums.get(1).click();
         }
+
+        condition = ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("RY3tic"));
+        List<WebElement> cssElements = wait.until(condition);
+
+        List<String> imageUrls = cssElements.stream()
+                .map(image -> image.getCssValue("background-image"))
+                .map(StringTransformer::getURLfromCssValue)
+                .collect(Collectors.toList());
+
+        imageUrls.forEach(System.out::println);
     }
 
     @Test
