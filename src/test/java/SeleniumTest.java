@@ -1,4 +1,6 @@
+import com.putin.utils.GeckoDriverFinder;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -17,7 +19,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class SeleniumTest {
 
-    private final static String GECKO_PATH = "/usr/bin/geckodriver";
     private String googleUser;
     private String googlePassword;
 
@@ -26,6 +27,7 @@ public class SeleniumTest {
 
     @Before
     public void setUp() {
+        System.setProperty("webdriver.gecko.driver", GeckoDriverFinder.findGeckoDriverForOS());
         initUserAndPasswordFromEnvironmentVariables();
         initWebDriverAndWait();
     }
@@ -51,9 +53,12 @@ public class SeleniumTest {
         }
     }
 
-    private void initWebDriverAndWait() {
-        System.setProperty("webdriver.gecko.driver", GECKO_PATH);
+    @Test
+    public void openGoogle() {
+        driver.navigate().to("https://google.com");
+    }
 
+    private void initWebDriverAndWait() {
         driver = new FirefoxDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
