@@ -1,4 +1,7 @@
+import com.putin.utils.GeckoDriverFinder;
+import com.putin.utils.StringTransformer;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -11,13 +14,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Created by ruwen on 03.10.17.
  */
 public class SeleniumTest {
 
-    private final static String GECKO_PATH = "/usr/bin/geckodriver";
     private String googleUser;
     private String googlePassword;
 
@@ -26,6 +29,7 @@ public class SeleniumTest {
 
     @Before
     public void setUp() {
+        System.setProperty("webdriver.gecko.driver", GeckoDriverFinder.findGeckoDriverForOS());
         initUserAndPasswordFromEnvironmentVariables();
         initWebDriverAndWait();
     }
@@ -49,11 +53,24 @@ public class SeleniumTest {
         if (albums.size() > 1) {
             albums.get(1).click();
         }
+
+        condition = ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("RY3tic"));
+        List<WebElement> cssElements = wait.until(condition);
+
+        List<String> imageUrls = cssElements.stream()
+                .map(image -> image.getCssValue("background-image"))
+                .map(StringTransformer::getURLfromCssValue)
+                .collect(Collectors.toList());
+
+        imageUrls.forEach(System.out::println);
+    }
+
+    @Test
+    public void openGoogle() {
+        driver.navigate().to("https://google.com");
     }
 
     private void initWebDriverAndWait() {
-        System.setProperty("webdriver.gecko.driver", GECKO_PATH);
-
         driver = new FirefoxDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 

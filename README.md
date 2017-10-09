@@ -3,7 +3,7 @@
 ## Java Part
 
 ### Prerequist
-Make sure you have a current *geckodriver* and update the path in the test. Currently test looks for `/usr/bin/geckodriver`. Also you need environment variables *GOOGLE_USER* and *GOOGLE_PASSWORD* for login.
+Make sure you have a current *geckodriver* and update the path in the test. Currently test looks for `/usr/bing/eckodriver`. Also you need environment variables *GOOGLE_USER* and *GOOGLE_PASSWORD* for login.
 
 ### Next / ToDos
 * try to include geckodriver as resource into the project
