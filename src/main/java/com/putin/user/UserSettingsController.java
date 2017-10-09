@@ -16,8 +16,7 @@ import java.util.List;
 @Controller
 public class UserSettingsController {
 
-    @ModelAttribute("calendarSettings")
-    public List<CalendarSetting> populateCalendarSettings() {
+    public void updateCalendarSettings() {
         List<CalendarSetting> calendarsSettings = new ArrayList<CalendarSetting>();
 
         CalendarWebService calendarWebService = new CalendarWebService();
@@ -32,11 +31,14 @@ public class UserSettingsController {
                     new CalendarSetting("google", entry.getId(), entry.getSummary(),
                             entry.getDescription(), checkCalendarSelection(entry.getId()) ));
         }
-        return calendarsSettings;
+        UserSettings userSettings = UserSettingsMapper.getUserSettings();
+        userSettings.setCalendarSettings(calendarsSettings);
+        UserSettingsMapper.setUserSettings(userSettings);
     }
 
     @RequestMapping("/usersettings")
     public String usersettings(Model model) {
+        updateCalendarSettings();
         model.addAttribute("usersettings", UserSettingsMapper.getUserSettings());
         return "userSettings";
     }
