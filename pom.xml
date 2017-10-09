@@ -110,6 +110,12 @@
             <version>1.22.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>dk.brics</groupId>
+            <artifactId>automaton</artifactId>
+            <version>1.12-1</version>
+        </dependency>
+
 
     </dependencies>
 
