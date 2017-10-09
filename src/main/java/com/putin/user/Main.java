@@ -1,4 +1,4 @@
-package com.putin.calendarservice;
+package com.putin.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
