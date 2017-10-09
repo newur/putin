@@ -1,11 +1,13 @@
 package com.putin.user;
 
+import com.putin.calendarservice.CalendarSetting;
+
 import java.util.List;
 
 public class UserSettings {
 
     private String username;
-    private List<String> selectedCalendars;
+    private List<CalendarSetting> calendarSettings;
 
     public String getUsername() {
         return username;
@@ -15,11 +17,11 @@ public class UserSettings {
         this.username = username;
     }
 
-    public List<String> getSelectedCalendars() {
-        return selectedCalendars;
+    public List<CalendarSetting> getCalendarSettings() {
+        return calendarSettings;
     }
 
-    public void setSelectedCalendars(List<String> selectedCalendars) {
-        this.selectedCalendars = selectedCalendars;
+    public void setCalendarSettings(List<CalendarSetting> calendarSettings) {
+        this.calendarSettings = calendarSettings;
     }
 }

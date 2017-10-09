@@ -5,12 +5,29 @@
     <title>Settings</title>
 </head>
 <body>
-    <h1>Settings</h1>
-    <table border="0">
-        <tr>
-            <td>Username:</td>
-            <td><p th:text="${username}" /></td>
-        </tr>
-    </table>
+    <form action="#" th:action="@{/saveusersettings}" th:object="${usersettings}" method="post">
+        <h1>Settings</h1>
+        <h2>Account settings</h2>
+        <table border="0">
+            <tr>
+                <td>Username:</td>
+                <td><th th:text="${usersettings.username}" /></td>
+            </tr>
+        </table>
+        <h2>Calendar settings</h2>
+
+            <!--<tr th:each="cal,stat: ${usersettings.calendarSettings}">-->
+                <!--<td><input type="checkbox" th:field="${usersettings.calendarSettings[__${stat.index}__].selected" /></td>-->
+                <!--<td><input type="text" th:field="*{cal.name}" /></td>-->
+                <!--<td><input type="text" th:field="*{cal.description}" /></td>-->
+                <!--<td><input type="text" th:field="*{cal.id}" /></td>-->
+            <!--</tr>-->
+
+        <table border="0" style="text-align:left">
+            <tr th:each="cal: ${calendarSettings}">
+                <td><input type="checkbox" th:field="*{calendarSettings}" th:value="${cal.selected}" th:checked="${cal.selected}"/></td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>

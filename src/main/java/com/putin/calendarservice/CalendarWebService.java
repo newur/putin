@@ -1,8 +1,9 @@
 package com.putin.calendarservice;
 
-
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 
 import com.google.api.client.util.DateTime;

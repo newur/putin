@@ -32,7 +32,7 @@ public class CalendarWebServiceTest {
         List<Event> events = new ArrayList<Event>();
         try {
             events = (List<Event>) calendarWebService.getEvents(UserSettingsMapper.getUserSettings().getUsername(),
-                    UserSettingsMapper.getUserSettings().getSelectedCalendars().get(0)).getEntity();
+                    UserSettingsMapper.getUserSettings().getCalendarSettings().get(0).getId()).getEntity();
         } catch (Exception e) {
             e.printStackTrace();
         }
