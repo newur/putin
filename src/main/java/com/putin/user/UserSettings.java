@@ -2,12 +2,13 @@ package com.putin.user;
 
 import com.putin.calendarservice.CalendarSetting;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserSettings {
 
     private String username;
-    private List<CalendarSetting> calendarSettings;
+    private List<CalendarSetting> calendarSettings = new ArrayList<>();
 
     public String getUsername() {
         return username;

@@ -15,9 +15,16 @@ public class UserSettingsController {
 
     @RequestMapping("/usersettings")
     public String usersettings(Model model) {
-        updateCalendarSettings();
-        model.addAttribute("usersettings", UserSettingsMapper.getUserSettings());
-        return "userSettings";
+        UserSettings userSettings = UserSettingsMapper.getUserSettings();
+        if(userSettings == null) {
+            model.addAttribute("usersettings", new UserSettings());
+            return "createUser";
+        }
+        else {
+            updateCalendarSettings();
+            model.addAttribute("usersettings", UserSettingsMapper.getUserSettings());
+            return "userSettings";
+        }
     }
 
     @RequestMapping("/saveusersettings")
@@ -27,7 +34,7 @@ public class UserSettingsController {
         }
         UserSettingsMapper.setUserSettings(userSettings);
         model.clear();
-        return "redirect:/userSettings";
+        return "redirect:/usersettings";
     }
 
     private void updateCalendarSettings() {

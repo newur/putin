@@ -1,4 +1,4 @@
-package com.putin.calendarservice;
+package com.putin.calendarservice.googlecalendar;
 
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;

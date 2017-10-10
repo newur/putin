@@ -17,7 +17,7 @@ public class CalendarController {
             return "calendar";
         }
 
-        static List<CalendarEvent> getAllCalendarEvents(){
+        private static List<CalendarEvent> getAllCalendarEvents(){
             List<CalendarEvent> calendarEvents = new ArrayList<>();
             calendarEvents.addAll(GoogleCalendarService.getCalendarEvents());
             return calendarEvents;

@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class GoogleCalendarWebService {
+class GoogleCalendarWebService {
 
 	@RequestMapping("/getCalendars")
-	public Response getCalendars(String user) throws Exception {
+	Response getCalendars(String user) throws Exception {
 
-		com.google.api.services.calendar.Calendar service = GoogleCalendarRequest.getCalendarService(user);
+		com.google.api.services.calendar.Calendar service = GoogleCalendarAuthorization.getCalendarService(user);
 
 		CalendarList calendarList = service.calendarList()
 				.list()
@@ -28,9 +28,9 @@ public class GoogleCalendarWebService {
 	}
 
 	@RequestMapping("/getEvents")
-    public Response getEvents(String user, String calendarId) throws Exception {
+    Response getEvents(String user, String calendarId) throws Exception {
 
-    	com.google.api.services.calendar.Calendar service = GoogleCalendarRequest.getCalendarService(user);
+    	com.google.api.services.calendar.Calendar service = GoogleCalendarAuthorization.getCalendarService(user);
 
 		Events events = service.events()
 				.list(calendarId)
