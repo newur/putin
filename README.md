@@ -15,13 +15,13 @@ Make sure you have a current *geckodriver* and update the path in the test. Curr
 
 ### Google Calendar Support
 
-###Prerequisites
-1.Create environment variable "putin_credentials" containing the path to a writable directory (e.g. "/home/<username>/.credentials")
-2.Run com.putin.Main - go to localhost:8080/usersettings in your browser
-3.Enter a username - click create user
-4.Check console output: Open the link, log in to google and allow application to access your calendar
-5.Activate calendars by changing their attribute selected to "selected = true" in usersettings.yaml
-6.Now you can access localhost:8080/usersettings to see synchronized calendars and localhost:8080/calendar to see events
+### Prerequisites
+* Create environment variable "putin_credentials" containing the path to a writable directory (e.g. "/home/<username>/.credentials")
+* Run com.putin.Main - go to localhost:8080/usersettings in your browser
+* Enter a username - click create user
+* Check console output: Open the link, log in to google and allow application to access your calendar
+* Activate calendars by changing their attribute selected to "selected = true" in usersettings.yaml
+* Now you can access localhost:8080/usersettings to see synchronized calendars and localhost:8080/calendar to see events
 
 ***
 
