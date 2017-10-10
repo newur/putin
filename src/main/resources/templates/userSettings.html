@@ -19,7 +19,7 @@
             <tr th:each="cal, stat: *{calendarSettings}">
                 <td><input type="checkbox" th:field="*{calendarSettings[__${stat.index}__].selected}" /></td>
                 <td><th th:text="*{calendarSettings[__${stat.index}__].name}"/></td>
-                <td><th th:text="*{calendarSettings[__${stat.index}__].id}"/></td>
+                <td><th style="font-size:10pt;" th:text="'('+*{calendarSettings[__${stat.index}__].id}+')'"/></td>
             </tr>
         </table>
     </form>

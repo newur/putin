@@ -2,18 +2,18 @@ package com.putin.calendarservice;
 
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
-import com.putin.user.UserSettings;
+import com.putin.calendarservice.googlecalendar.GoogleCalendarWebService;
 import com.putin.user.UserSettingsMapper;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalendarWebServiceTest {
+public class GoogleCalendarWebServiceTest {
 
     @Test
     public void getCalendarsTest(){
-        CalendarWebService calendarWebService = new CalendarWebService();
+        GoogleCalendarWebService calendarWebService = new GoogleCalendarWebService();
         List<CalendarListEntry> calendars = new ArrayList<CalendarListEntry>();
         try {
             calendars = (List<CalendarListEntry>) calendarWebService.getCalendars("johanneshartig@gmail.com").getEntity();
@@ -28,7 +28,7 @@ public class CalendarWebServiceTest {
 
     @Test
     public void getEventsTest(){
-        CalendarWebService calendarWebService = new CalendarWebService();
+        GoogleCalendarWebService calendarWebService = new GoogleCalendarWebService();
         List<Event> events = new ArrayList<Event>();
         try {
             events = (List<Event>) calendarWebService.getEvents(UserSettingsMapper.getUserSettings().getUsername(),
