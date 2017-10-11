@@ -11,17 +11,24 @@
         <table border="0">
             <tr>
                 <td>Username:</td>
-                <td><th th:text="${usersettings.username}" /></td>
+                <td><input type="text" th:field="${usersettings.username}"/></td>
             </tr>
         </table>
         <h2>Calendar settings</h2>
         <table border="0" style="text-align:left">
             <tr th:each="cal, stat: *{calendarSettings}">
-                <td><input type="checkbox" th:field="*{calendarSettings[__${stat.index}__].selected}" /></td>
-                <td><th th:text="*{calendarSettings[__${stat.index}__].name}"/></td>
-                <td><th style="font-size:10pt;" th:text="'('+*{calendarSettings[__${stat.index}__].id}+')'"/></td>
+                <td>
+                    <input type="checkbox" th:field="*{calendarSettings[__${stat.index}__].selected}"/>
+                    <input type="hidden" th:field="*{calendarSettings[__${stat.index}__].type}"/>
+                    <input type="hidden" th:field="*{calendarSettings[__${stat.index}__].description}"/>
+                </td>
+                <td>
+                    <input type="text" th:field="*{calendarSettings[__${stat.index}__].name}"/>
+                </td>
+                <td><input type="text" th:field="*{calendarSettings[__${stat.index}__].id}"/></td>
             </tr>
         </table>
+        <button type="submit" name="saveUserSetting">Save</button>
     </form>
 </body>
 </html>

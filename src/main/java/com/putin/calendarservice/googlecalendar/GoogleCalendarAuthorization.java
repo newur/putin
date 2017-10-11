@@ -2,25 +2,21 @@ package com.putin.calendarservice.googlecalendar;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.OAuth2Utils;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
+import com.putin.user.UserSettingsMapper;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-class GoogleCalendarAuthorization {
+public class GoogleCalendarAuthorization {
 
 	private static final String APPLICATION_NAME = "Putin";
 	private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getenv("putin_credentials"));
@@ -39,12 +35,6 @@ class GoogleCalendarAuthorization {
 		}
 	}
 
-	private static String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
-		GenericUrl url = new GenericUrl(req.getRequestURL().toString());
-		url.setRawPath("/oauth2callback");
-		return url.build();
-	}
-
 	private static AuthorizationCodeFlow initializeFlow() throws IOException {
 		return new GoogleAuthorizationCodeFlow.Builder(
 				HTTP_TRANSPORT, JSON_FACTORY,
@@ -53,15 +43,38 @@ class GoogleCalendarAuthorization {
 				DATA_STORE_FACTORY).setAccessType("offline").build();
 	}
 
-	static Credential authorize(String user) throws Exception {
-		return new AuthorizationCodeInstalledApp(initializeFlow(), new LocalServerReceiver()).authorize(user);
+	public static Credential authorize(String code, String redirectUri) throws Exception {
+		GoogleAuthorizationCodeInstalledAppExtended aciae = new GoogleAuthorizationCodeInstalledAppExtended(initializeFlow(), new LocalServerReceiver());
+		Credential credential = aciae.doAuthorize(UserSettingsMapper.getUserSettings().getUsername(), code, redirectUri);
+		return credential;
 	}
 
 	static com.google.api.services.calendar.Calendar getCalendarService(String user) throws Exception {
-		Credential credential = authorize(user);
+		Credential credential = checkAuthorization(user);
 		return new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
 				.setApplicationName(APPLICATION_NAME).build();
 	}
+
+	public static Credential checkAuthorization(String user){
+		GoogleAuthorizationCodeInstalledAppExtended aciae = null;
+		try {
+			aciae = new GoogleAuthorizationCodeInstalledAppExtended(initializeFlow(), new LocalServerReceiver());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return aciae.checkAuthorization(user);
+	}
+
+	public static String getGoogleLoginUri(String user, String redirectUri){
+		GoogleAuthorizationCodeInstalledAppExtended aciae = null;
+		try {
+			aciae = new GoogleAuthorizationCodeInstalledAppExtended(initializeFlow(), new LocalServerReceiver());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return aciae.getGoogleLoginUri(redirectUri);
+	}
+
 
 
 }

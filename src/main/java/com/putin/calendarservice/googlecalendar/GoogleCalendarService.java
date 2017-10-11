@@ -1,5 +1,6 @@
 package com.putin.calendarservice.googlecalendar;
 
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.putin.calendarservice.CalendarEvent;
@@ -7,17 +8,30 @@ import com.putin.calendarservice.CalendarSetting;
 import com.putin.user.UserSettingsMapper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GoogleCalendarService {
 
+    public static String checkAuthorization(){
+        return "";
+    }
+
     public static List<CalendarEvent> getCalendarEvents(){
-        GoogleCalendarWebService calendarWebService = new GoogleCalendarWebService();
         List<Event> events = new ArrayList<>();
         for(CalendarSetting calendarSetting : UserSettingsMapper.getUserSettings().getCalendarSettings()) {
             if(calendarSetting.isSelected()) {
                 try {
-                    events = (List<Event>) calendarWebService.getEvents(UserSettingsMapper.getUserSettings().getUsername(), calendarSetting.getId()).getEntity();
+                    com.google.api.services.calendar.Calendar service =
+                            GoogleCalendarAuthorization.getCalendarService(UserSettingsMapper.getUserSettings().getUsername());
+                    events.addAll(service.events()
+                            .list(calendarSetting.getId())
+                            .setMaxResults(30)
+                            .setTimeMin(new DateTime(new Date()))
+                            .setOrderBy("startTime")
+                            .setSingleEvents(true)
+                            .execute()
+                            .getItems());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -27,10 +41,15 @@ public class GoogleCalendarService {
     }
 
     public static List<CalendarSetting> getCalendarSettings() {
-        GoogleCalendarWebService calendarWebService = new GoogleCalendarWebService();
         List<CalendarListEntry> calendars = new ArrayList<>();
         try {
-            calendars = (List<CalendarListEntry>) calendarWebService.getCalendars(UserSettingsMapper.getUserSettings().getUsername()).getEntity();
+            com.google.api.services.calendar.Calendar service =
+                    GoogleCalendarAuthorization.getCalendarService(UserSettingsMapper.getUserSettings().getUsername());
+
+            calendars = service.calendarList()
+                    .list()
+                    .execute()
+                    .getItems();
         } catch (Exception e) {
             e.printStackTrace();
         }
