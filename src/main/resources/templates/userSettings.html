@@ -11,7 +11,10 @@
         <table border="0">
             <tr>
                 <td>Username:</td>
-                <td><input type="text" th:field="${usersettings.username}"/></td>
+                <td>
+                    <input type="hidden" th:field="${usersettings.username}"/>
+                    <th th:text="${usersettings.username}"/>
+                </td>
             </tr>
         </table>
         <h2>Calendar settings</h2>
@@ -23,9 +26,13 @@
                     <input type="hidden" th:field="*{calendarSettings[__${stat.index}__].description}"/>
                 </td>
                 <td>
-                    <input type="text" th:field="*{calendarSettings[__${stat.index}__].name}"/>
+                    <input type="hidden" th:field="*{calendarSettings[__${stat.index}__].name}"/>
+                    <th th:text="*{calendarSettings[__${stat.index}__].name}"/>
                 </td>
-                <td><input type="text" th:field="*{calendarSettings[__${stat.index}__].id}"/></td>
+                <td>
+                    <input type="hidden" th:field="*{calendarSettings[__${stat.index}__].id}"/>
+                    <th style="font-size: 10pt" th:text="*{calendarSettings[__${stat.index}__].id}"/>
+                </td>
             </tr>
         </table>
         <button type="submit" name="saveUserSetting">Save</button>

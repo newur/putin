@@ -26,7 +26,7 @@ public class UserSettingsController {
     }
 
     @RequestMapping("/usersettings")
-    public String usersettings(Model model) {
+    public String displayUserSettings(Model model) {
         UserSettings userSettings = UserSettingsMapper.getUserSettings();
         if(userSettings == null) {
             model.addAttribute("usersettings", new UserSettings());
@@ -44,7 +44,7 @@ public class UserSettingsController {
     }
 
     @RequestMapping("/saveusersettings")
-    public String saveusersettings(UserSettings userSettings, final BindingResult bindingResult, final ModelMap model){
+    public String saveUserSettings(UserSettings userSettings, final BindingResult bindingResult, final ModelMap model){
         if (bindingResult.hasErrors()) {
             return "userSettings";
         }
@@ -59,6 +59,5 @@ public class UserSettingsController {
         userSettings.setCalendarSettings(calendarsSettings);
         UserSettingsMapper.setUserSettings(userSettings);
     }
-
 
 }
