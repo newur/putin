@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" charset="UTF-8"/>
+    <title>Settings</title>
+    <script src="./jquery-3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="user.js"></script>
+    <script>
+    var settings;
+    $.getJSON( "/getUser", function( data ) {
+        document.getElementById("username").innerHTML = data.username;
+        settings=data;
+        $.each(settings.calendarSettings, function (i) {
+            $("#calendarsettingstable").find('tbody')
+                .append($('<tr>')
+                    .append($('<td>')
+                        .append($('<input>')
+                            .attr('id', 'settings.calendarSettings[i].id')
+                            .attr('ng-model', 'settings.calendarSettings[i].selected')
+                            .attr('type', 'checkbox')
+                            .attr('value', 'settings.calendarSettings[i].selected')
+                        )
+                    )
+                    .append($('<td>')
+                        .append(settings.calendarSettings[i].name)
+                    )
+                );
+        });
+    });
+    var app = angular.module('myApp', []);
+        app.controller('myCtrl', function(settings) {
+    });
+    </script>
+</head>
+<body>
+    <form id="saveSettingsForm" action="http://localhost:8080/saveUserSettings">
+        <h1>Settings</h1>
+        <h2>Account settings</h2>
+        <table border="0">
+            <tr>
+                <td>Username:</td>
+                <td><div id="username"></div></td>
+            </tr>
+        </table>
+        <h2>Calendar settings</h2>
+        <table id="calendarsettingstable" border="0" style="text-align:left">
+            <tbody>
+
+            </tbody>
+        </table>
+        <input type="submit" id="submitButton"  name="submitButton" value="Save" />
+    </form>
+    <script type='text/javascript'>
+        $("#saveSettingsForm").submit(function(event) {
+              event.preventDefault();
+              var $form = $( this ),
+                  url = $form.attr( 'action' );
+              $.ajax({
+                  type: 'POST',
+                  url: url,
+                  data: JSON.stringify(settings),
+                  success: function(data) {
+                    //
+                  },
+                  contentType: "application/json",
+                  dataType: 'json'
+              });
+        });
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package com.putin.calendarservice.googlecalendar;
+package com.putin.calendar.services.google;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;

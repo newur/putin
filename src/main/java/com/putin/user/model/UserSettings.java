@@ -1,6 +1,4 @@
-package com.putin.user;
-
-import com.putin.calendarservice.CalendarSetting;
+package com.putin.user.model;
 
 import java.util.ArrayList;
 import java.util.List;

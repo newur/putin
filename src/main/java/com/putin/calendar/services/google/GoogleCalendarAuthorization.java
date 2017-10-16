@@ -1,4 +1,4 @@
-package com.putin.calendarservice.googlecalendar;
+package com.putin.calendar.services.google;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.Credential;
@@ -10,7 +10,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
-import com.putin.user.UserSettingsMapper;
+import com.putin.user.util.UserSettingsMapper;
 
 import java.io.IOException;
 import java.util.Collections;

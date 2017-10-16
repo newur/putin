@@ -1,4 +1,4 @@
-package com.putin.calendarservice;
+package com.putin.user.model;
 
 public class CalendarSetting {
 

@@ -1,6 +1,8 @@
 package com.putin.user;
 
-import com.putin.calendarservice.CalendarSetting;
+import com.putin.user.model.CalendarSetting;
+import com.putin.user.model.UserSettings;
+import com.putin.user.util.UserSettingsMapper;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.Test;

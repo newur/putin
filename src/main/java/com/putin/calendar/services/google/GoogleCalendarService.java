@@ -1,11 +1,11 @@
-package com.putin.calendarservice.googlecalendar;
+package com.putin.calendar.services.google;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
-import com.putin.calendarservice.CalendarEvent;
-import com.putin.calendarservice.CalendarSetting;
-import com.putin.user.UserSettingsMapper;
+import com.putin.calendar.model.CalendarEvent;
+import com.putin.user.model.CalendarSetting;
+import com.putin.user.util.UserSettingsMapper;
 
 import java.util.ArrayList;
 import java.util.Date;

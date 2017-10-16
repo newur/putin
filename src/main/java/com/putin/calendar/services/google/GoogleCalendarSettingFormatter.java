@@ -1,8 +1,8 @@
-package com.putin.calendarservice.googlecalendar;
+package com.putin.calendar.services.google;
 
 import com.google.api.services.calendar.model.CalendarListEntry;
-import com.putin.calendarservice.CalendarSetting;
-import com.putin.user.UserSettingsMapper;
+import com.putin.user.model.CalendarSetting;
+import com.putin.user.util.UserSettingsMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ class GoogleCalendarSettingFormatter {
         List<CalendarSetting> calendarSettings = new ArrayList<>();
         for (CalendarListEntry entry : calendars) {
             calendarSettings.add(
-                    new CalendarSetting("googlecalendar", entry.getId(), entry.getSummary(),
+                    new CalendarSetting("google", entry.getId(), entry.getSummary(),
                             entry.getDescription(), checkCalendarSelection(entry.getId())));
         }
         return calendarSettings;

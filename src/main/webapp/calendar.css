@@ -1,0 +1,22 @@
+.events {
+	margin-left: 0px;
+	width: 300px;
+	height: 25px;
+	border-width: 1px 0px 0px 0px;
+	padding: 5px 5px 5px 5px;
+	border-style: solid;
+	background-color: lightblue;
+	color: white;
+	font-family: "Lucida Console";
+	font-size: 12pt;
+}
+
+.leftlist{
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+.body{
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}

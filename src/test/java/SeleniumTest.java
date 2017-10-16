@@ -36,7 +36,7 @@ public class SeleniumTest {
 
     @Test
     public void openFirstAlbum() throws Exception {
-        driver.navigate().to("https://photos.googlecalendar.com/albums");
+        driver.navigate().to("https://photos.google.com/albums");
 
         WebElement identifier = driver.findElement(By.name("identifier"));
         identifier.sendKeys(googleUser);
@@ -67,7 +67,7 @@ public class SeleniumTest {
 
     @Test
     public void openGoogle() {
-        driver.navigate().to("https://googlecalendar.com");
+        driver.navigate().to("https://google.com");
     }
 
     private void initWebDriverAndWait() {

@@ -1,8 +1,8 @@
-package com.putin.calendarservice.googlecalendar;
+package com.putin.calendar.services.google;
 
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
-import com.putin.calendarservice.CalendarEvent;
+import com.putin.calendar.model.CalendarEvent;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 class GoogleCalendarEventFormatter {
 
@@ -18,9 +17,13 @@ class GoogleCalendarEventFormatter {
             List<CalendarEvent> calendarEvents= new ArrayList<>();
             for(Event event : events){
                 calendarEvents.add(new CalendarEvent(event.getSummary(), event.getDescription(), event.getLocation(),
-                        datetimetoDate(event.getStart()), datetimetoDate(event.getEnd())));
+                        datetimetoDate(event.getStart()), datetimetoDate(event.getEnd()), isAllDayEvent(event)));
             }
             return calendarEvents;
+        }
+
+        private static boolean isAllDayEvent(Event event){
+            return event.getStart().getDateTime() == null && event.getStart().getDate() != null;
         }
 
         private static Date datetimetoDate(EventDateTime datetime){
@@ -43,33 +46,6 @@ class GoogleCalendarEventFormatter {
                 return null;
             }
         }
-    }
-
-    private static String dateToString(EventDateTime datetime){
-        if(datetime==null)
-            return "";
-        else if(datetime.getDateTime()==null && datetime.getDate()!=null)
-            try {
-                String target = datetime.getDate().toStringRfc3339();
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                Date result = df.parse(target);
-                DateFormat df2 = new SimpleDateFormat("EEEE, dd.MMMMM", Locale.GERMAN);
-                return df2.format(result);
-            } catch (ParseException e) {
-                return "";
-            }
-        else{
-            try {
-                String target = datetime.getDateTime().toStringRfc3339();
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSS");
-                Date result = df.parse(target);
-                DateFormat df2 = new SimpleDateFormat("EEEE, dd.MMMMM", Locale.GERMAN);
-                return df2.format(result);
-            } catch (ParseException e) {
-                return "";
-            }
-        }
-
     }
 
 
