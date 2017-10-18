@@ -1,3 +1,6 @@
+package com.putin.integration;
+
+import com.putin.integration.AbstractSeleniumTest;
 import com.putin.utils.GeckoDriverFinder;
 import com.putin.utils.StringTransformer;
 import org.junit.Before;
@@ -19,25 +22,51 @@ import java.util.stream.Collectors;
 /**
  * Created by ruwen on 03.10.17.
  */
-public class SeleniumTest {
+public class SeleniumTest extends AbstractSeleniumTest {
 
     private String googleUser;
     private String googlePassword;
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-
     @Before
     public void setUp() {
-        System.setProperty("webdriver.gecko.driver", GeckoDriverFinder.findGeckoDriverForOS());
         initUserAndPasswordFromEnvironmentVariables();
-        initWebDriverAndWait();
     }
 
     @Test
-    public void openFirstAlbum() throws Exception {
+    public void openFirstAlbumTest() throws Exception {
         driver.navigate().to("https://photos.google.com/albums");
 
+        login();
+
+        openFirstAlbum();
+
+        List<String> imageUrls = extractImageUrlsFromCurrentPage();
+
+        imageUrls.forEach(System.out::println);
+    }
+
+    private List<String> extractImageUrlsFromCurrentPage() {
+        List<WebElement> cssElements = wait.until(elementsVisibleWithClassName("RY3tic"));
+
+        return cssElements.stream()
+                .map(image -> image.getCssValue("background-image"))
+                .map(StringTransformer::getURLfromCssValue)
+                .collect(Collectors.toList());
+    }
+
+    private void openFirstAlbum() {
+        List<WebElement> albums = wait.until(elementsVisibleWithClassName("MTmRkb"));
+
+        if (albums.size() > 1) {
+            albums.get(1).click();
+        }
+    }
+
+    private ExpectedCondition<List<WebElement>> elementsVisibleWithClassName(String className) {
+        return ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className(className));
+    }
+
+    private void login() {
         WebElement identifier = driver.findElement(By.name("identifier"));
         identifier.sendKeys(googleUser);
         identifier.sendKeys(Keys.ENTER);
@@ -45,24 +74,6 @@ public class SeleniumTest {
         WebElement password = wait.until(ExpectedConditions.elementToBeClickable(By.name("password")));
         password.sendKeys(googlePassword);
         password.sendKeys(Keys.ENTER);
-
-        ExpectedCondition<List<WebElement>> condition =
-                ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("MTmRkb"));
-        List<WebElement> albums = wait.until(condition);
-
-        if (albums.size() > 1) {
-            albums.get(1).click();
-        }
-
-        condition = ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("RY3tic"));
-        List<WebElement> cssElements = wait.until(condition);
-
-        List<String> imageUrls = cssElements.stream()
-                .map(image -> image.getCssValue("background-image"))
-                .map(StringTransformer::getURLfromCssValue)
-                .collect(Collectors.toList());
-
-        imageUrls.forEach(System.out::println);
     }
 
     @Test

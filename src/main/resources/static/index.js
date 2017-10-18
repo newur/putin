@@ -12,5 +12,4 @@ window.onload = function () {
         vm.calendarEvents=data;
     });
 
-
 }
