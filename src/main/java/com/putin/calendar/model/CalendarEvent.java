@@ -1,6 +1,5 @@
 package com.putin.calendar.model;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -13,8 +12,6 @@ public class CalendarEvent {
     private Date start;
     private Date end;
     private boolean allday;
-
-    private final DateFormat df2 = new SimpleDateFormat("HH:mm", Locale.GERMAN);
 
     public CalendarEvent() {
     }
@@ -76,13 +73,13 @@ public class CalendarEvent {
 
     public String getStartAsString(){
         if(start!=null && !allday)
-            return df2.format(start);
+            return new SimpleDateFormat("HH:mm", Locale.GERMAN).format(start);
         else return "";
     }
 
     public String getEndAsString(){
         if(end!=null && !allday)
-            return df2.format(end);
+            return new SimpleDateFormat("HH:mm", Locale.GERMAN).format(end);
         else return "";
     }
 

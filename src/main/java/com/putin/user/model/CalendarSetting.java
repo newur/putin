@@ -6,16 +6,19 @@ public class CalendarSetting {
     private String id;
     private String name;
     private String description;
+    private String color;
     private boolean selected;
 
     public CalendarSetting() {
+        // TODO
     }
 
-    public CalendarSetting(String type, String id, String name, String description, boolean selected) {
+    public CalendarSetting(String type, String id, String name, String description, String color, boolean selected) {
         this.type = type;
         this.id = id;
         this.name = name;
         this.description = description;
+        this.color = color;
         this.selected = selected;
     }
 
@@ -49,6 +52,14 @@ public class CalendarSetting {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public boolean isSelected() {

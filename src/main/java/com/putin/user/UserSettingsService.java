@@ -1,10 +1,9 @@
 package com.putin.user;
 
+import com.putin.calendar.services.google.*;
 import com.putin.user.model.CalendarSetting;
-import com.putin.calendar.services.google.GoogleCalendarAuthorization;
-import com.putin.calendar.services.google.GoogleCalendarService;
 import com.putin.user.model.UserSettings;
-import com.putin.user.util.UserSettingsMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,35 +13,43 @@ import java.util.List;
 @RestController
 public class UserSettingsService {
 
+    private final GoogleCalendarService googleCalendarService;
+    private final UserSettingsProvider userSettingsProvider;
+
+    @Autowired
+    public UserSettingsService() {
+        this.userSettingsProvider = new FileBasedUserSettingsProvider();
+        this.googleCalendarService = new GoogleCalendarService(new GoogleCalendarSettingFormatter(userSettingsProvider),userSettingsProvider);
+    }
+
     @RequestMapping("/userExists")
-    private static boolean userexists(){
-        UserSettings userSettings = UserSettingsMapper.getUserSettings();
+    public boolean userexists(){
+        UserSettings userSettings = userSettingsProvider.getUserSettings();
         return (userSettings != null);
     }
 
     @RequestMapping("/getUser")
-    private UserSettings getusersettings(){
-        return UserSettingsMapper.getUserSettings();
+    public UserSettings getusersettings(){
+        return userSettingsProvider.getUserSettings();
     }
 
     @ResponseBody
     @RequestMapping("/saveUserSettings")
     public boolean saveUserSettings(@RequestBody UserSettings userSettings){
-        UserSettingsMapper.setUserSettings(userSettings);
-        return true;
+        return userSettingsProvider.setUserSettings(userSettings);
     }
 
     @RequestMapping("/createUserSettings")
     public boolean createUser(@RequestParam("username") String username){
         UserSettings userSettings = new UserSettings();
         userSettings.setUsername(username);
-        UserSettingsMapper.setUserSettings(userSettings);
+        userSettingsProvider.setUserSettings(userSettings);
         return true;
     }
 
     @RequestMapping("/checkGoogleAuthorization")
     public String checkGoogleAuthorization() {
-        UserSettings userSettings = UserSettingsMapper.getUserSettings();
+        UserSettings userSettings = userSettingsProvider.getUserSettings();
         if(GoogleCalendarAuthorization.checkAuthorization(userSettings.getUsername()) != null){
             updateCalendarSettings();
             return "success";
@@ -54,7 +61,7 @@ public class UserSettingsService {
     @RequestMapping("/authorize")
     public void handleReturnCode(HttpServletResponse response, @RequestParam("code") String code) throws IOException {
         try {
-            GoogleCalendarAuthorization.authorize(code, "http://localhost:8080/authorize");
+            GoogleCalendarAuthorization.authorize(userSettingsProvider.getUserSettings().getUsername(), code, "http://localhost:8080/authorize");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,10 +71,10 @@ public class UserSettingsService {
 
 
     private void updateCalendarSettings() {
-        List<CalendarSetting> calendarsSettings = GoogleCalendarService.getCalendarSettings();
-        UserSettings userSettings = UserSettingsMapper.getUserSettings();
+        List<CalendarSetting> calendarsSettings = googleCalendarService.getCalendarSettings();
+        UserSettings userSettings = userSettingsProvider.getUserSettings();
         userSettings.setCalendarSettings(calendarsSettings);
-        UserSettingsMapper.setUserSettings(userSettings);
+        userSettingsProvider.setUserSettings(userSettings);
     }
 
 }

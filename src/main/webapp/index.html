@@ -3,19 +3,18 @@
     <head>
         <meta charset="utf-8"/>
         <title>Putin</title>
-        <script src="./jquery-3.2.1/jquery.min.js"></script>
-        <script src="user.js"></script>
+        <script src="./frameworks/jquery.min.js"></script>
+        <script src="./frameworks/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="authorization.js"></script>
         <script src="calendar.js"></script>
-        <script language="javascript" type="text/javascript">
-            checkIfUserExists();
-            authorizeToGoogle();
-        </script>
+        <script src="index.js"></script>
 		<link rel="stylesheet" href="calendar.css">
     </head>
 
     <body class="body">
-        <script language="javascript" type="text/javascript">
-            loadCalendarEvents();
-        </script>
+        <div id="main">
+            <calendar :events="calendarEvents"></calendar>
+        </div>
     </body>
 </html>

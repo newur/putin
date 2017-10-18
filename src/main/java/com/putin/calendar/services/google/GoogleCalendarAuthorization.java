@@ -10,7 +10,6 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
-import com.putin.user.util.UserSettingsMapper;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -43,9 +42,9 @@ public class GoogleCalendarAuthorization {
 				DATA_STORE_FACTORY).setAccessType("offline").build();
 	}
 
-	public static Credential authorize(String code, String redirectUri) throws Exception {
+	public static Credential authorize(String username, String code, String redirectUri) throws Exception {
 		GoogleAuthorizationCodeInstalledAppExtended aciae = new GoogleAuthorizationCodeInstalledAppExtended(initializeFlow(), new LocalServerReceiver());
-		Credential credential = aciae.doAuthorize(UserSettingsMapper.getUserSettings().getUsername(), code, redirectUri);
+		Credential credential = aciae.doAuthorize(username, code, redirectUri);
 		return credential;
 	}
 

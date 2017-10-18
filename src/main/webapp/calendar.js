@@ -1,13 +1,8 @@
-function loadCalendarEvents(){
-	$.getJSON( "/calendarEvents", function( data ) {
-	  var items = [];
-	  $.each( data, function( i, calendarEntry ) {
-		items.push( "<div class='events' id='" + calendarEntry.name + "'>" + calendarEntry.name + "</div>");
-	  });
-	 
-	  $( "<ul/>", {
-		"class": "leftlist",
-		html: items.join( "" )
-	  }).appendTo( "body" );
-	});
-}
+Vue.component("calendar", {
+    template: `<div>
+                    <li v-for="event in events">
+                        <span> {{ event.name }} </span>
+                    </li>
+               </div>`,
+    props: ['events']
+});
