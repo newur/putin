@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @RestController
 public class CalendarService {
@@ -24,7 +28,10 @@ public class CalendarService {
     public List<CalendarEvent> getAllCalendarEvents(){
         List<CalendarEvent> calendarEvents = new ArrayList<>();
         calendarEvents.addAll(googleCalendarService.getCalendarEvents());
-        return CalendarEventSorter.sortByStart(calendarEvents).subList(0,15);
+
+        return calendarEvents.stream()
+                .sorted(Comparator.comparing(CalendarEvent::getStart))
+                .collect(toList());
     }
 
 }
