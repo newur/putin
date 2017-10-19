@@ -19,7 +19,7 @@ public class UserSettingsService {
     @Autowired
     public UserSettingsService() {
         this.userSettingsProvider = new FileBasedUserSettingsProvider();
-        this.googleCalendarService = new GoogleCalendarService(new GoogleCalendarSettingFormatter(userSettingsProvider),userSettingsProvider);
+        this.googleCalendarService = new GoogleCalendarService(new GoogleCalendarSettingFormatter(userSettingsProvider));
     }
 
     @RequestMapping("/userExists")
@@ -71,8 +71,8 @@ public class UserSettingsService {
 
 
     private void updateCalendarSettings() {
-        List<CalendarSetting> calendarsSettings = googleCalendarService.getCalendarSettings();
         UserSettings userSettings = userSettingsProvider.getUserSettings();
+        List<CalendarSetting> calendarsSettings = googleCalendarService.getCalendarSettings(userSettings.getUsername());
         userSettings.setCalendarSettings(calendarsSettings);
         userSettingsProvider.setUserSettings(userSettings);
     }

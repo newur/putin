@@ -17,46 +17,41 @@ import java.util.List;
 public class GoogleCalendarService {
 
     private final GoogleCalendarSettingFormatter formatter;
-    private final UserSettingsProvider userSettingsProvider;
+
 
     @Autowired
-    public GoogleCalendarService(GoogleCalendarSettingFormatter formatter, UserSettingsProvider userSettingsProvider) {
+    public GoogleCalendarService(GoogleCalendarSettingFormatter formatter) {
         this.formatter = formatter;
-        this.userSettingsProvider = userSettingsProvider;
     }
 
     public static String checkAuthorization(){
         return "";
     }
 
-    public List<CalendarEvent> getCalendarEvents(){
+    public List<CalendarEvent> getCalendarEvents(String username, String calendarID){
         List<Event> events = new ArrayList<>();
-        for(CalendarSetting calendarSetting : userSettingsProvider.getUserSettings().getCalendarSettings()) {
-            if(calendarSetting.isSelected()) {
-                try {
-                    com.google.api.services.calendar.Calendar service =
-                            GoogleCalendarAuthorization.getCalendarService(userSettingsProvider.getUserSettings().getUsername());
-                    events.addAll(service.events()
-                            .list(calendarSetting.getId())
-                            .setMaxResults(30)
-                            .setTimeMin(new DateTime(new Date()))
-                            .setOrderBy("startTime")
-                            .setSingleEvents(true)
-                            .execute()
-                            .getItems());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        try {
+            com.google.api.services.calendar.Calendar service =
+                    GoogleCalendarAuthorization.getCalendarService(username);
+            events.addAll(service.events()
+                    .list(calendarID)
+                    .setMaxResults(30)
+                    .setTimeMin(new DateTime(new Date()))
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute()
+                    .getItems());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return GoogleCalendarEventFormatter.standardizeCalendarEvents(events);
     }
 
-    public List<CalendarSetting> getCalendarSettings() {
+    public List<CalendarSetting> getCalendarSettings(String username) {
         List<CalendarListEntry> calendars = new ArrayList<>();
         try {
             com.google.api.services.calendar.Calendar service =
-                    GoogleCalendarAuthorization.getCalendarService(userSettingsProvider.getUserSettings().getUsername());
+                    GoogleCalendarAuthorization.getCalendarService(username);
 
             calendars = service.calendarList()
                     .list()

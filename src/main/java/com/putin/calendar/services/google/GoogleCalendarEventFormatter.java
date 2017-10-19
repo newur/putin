@@ -3,6 +3,7 @@ package com.putin.calendar.services.google;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.putin.calendar.model.CalendarEvent;
+import com.putin.user.model.CalendarSetting;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,7 +21,7 @@ class GoogleCalendarEventFormatter {
                         datetimetoDate(event.getStart()), datetimetoDate(event.getEnd()), isAllDayEvent(event)));
             }
             return calendarEvents;
-        }
+        }        
 
         private static boolean isAllDayEvent(Event event){
             return event.getStart().getDateTime() == null && event.getStart().getDate() != null;

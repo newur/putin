@@ -3,13 +3,15 @@ window.onload = function () {
     var vm = new Vue({
       el: "#main",
       data: {
-        calendarEvents: '',
+        calendardata: '',
+        variant: 'calendarEvents'
       }
     });
 
-    // get calendar events
-    $.getJSON( "/calendarEvents", function( data ) {
-        vm.calendarEvents=data;
+    // get calendar data
+    $.getJSON( "/"+vm.variant, function( data ) {
+        vm.calendardata=data;
     });
+
 
 }

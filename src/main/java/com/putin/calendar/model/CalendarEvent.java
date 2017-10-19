@@ -9,6 +9,7 @@ public class CalendarEvent {
     private String name;
     private String description;
     private String location;
+    private String color;
     private Date start;
     private Date end;
     private boolean allday;
@@ -71,10 +72,22 @@ public class CalendarEvent {
         this.allday = allday;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     public String getStartAsString(){
         if(start!=null && !allday)
             return new SimpleDateFormat("HH:mm", Locale.GERMAN).format(start);
         else return "";
+    }
+
+    public String getStartDayAsString(){
+        return new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN).format(start);
     }
 
     public String getEndAsString(){
@@ -82,5 +95,6 @@ public class CalendarEvent {
             return new SimpleDateFormat("HH:mm", Locale.GERMAN).format(end);
         else return "";
     }
+
 
 }
