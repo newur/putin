@@ -19,14 +19,14 @@ fetchAsync(url)
     .catch(reason => console.log(reason.message))
 }
 
-function fakeFetcher(url) {
+function fakeFetcher(url, simulatedWaitTime = 10000) {
     return new Promise(
         function(resolve, reject) {
             setTimeout(function () {
                 result = urls;
                 console.log('simulated fetch time over...');
                 resolve(urls);
-            }, 250);
+            }, simulatedWaitTime);
         }
     )
 }

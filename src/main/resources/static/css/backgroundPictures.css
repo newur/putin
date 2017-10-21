@@ -1,6 +1,7 @@
 :root {
     --initialBackgroundOne: url(../pictures/artful-logo.png);
     --initialBackgroundTwo: none;
+    --backgroundTwoTransition: opacity 1s;
 }
 
 body, html {
@@ -31,7 +32,7 @@ body, html {
     height: 100%;
     background-image: var(--initialBackgroundTwo);
     background-color: white;
-    transition: opacity 1s;
+    transition: var(--backgroundTwoTransition, opacity 1s);
     z-index: -1
 }
 
