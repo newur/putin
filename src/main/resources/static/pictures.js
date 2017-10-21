@@ -1,15 +1,14 @@
-let pics = [];
-
+// times should be configurable by user in final version
 const showTimeInMilliseconds = 3000;
 const fadeTimeInMilliseconds = 1000;
 
-let one = document.getElementById('bg1');
-let two = document.getElementById('bg2');
+let pics = [];
+let bgs = document.getElementsByClassName('bg');
 
-two.addEventListener("transitionend", event => {
-    let changeElement = event.target.classList.contains('hide') ? two : one;
+bgs[1].addEventListener("transitionend", event => {
+    let changeElement = event.target.classList.contains('hide') ? bgs[1] : bgs[0];
     changeBg(changeElement);
-    setTimeout(() => two.classList.toggle('hide'), checkLoading());
+    setTimeout(() => bgs[1].classList.toggle('hide'), checkLoading());
 }, false);
 
 function getRandomInteger(min, max) {
@@ -23,21 +22,22 @@ function changeBg(element) {
     }
 }
 
-// this function fully optional
+async function startPictureLogic() {
+    bgs[1].classList.toggle('hide');
+    pics = await fakeFetcher('url', 3000);
+    bgs[1].style.setProperty("--backgroundTwoTransition", `opacity ${fadeTimeInMilliseconds}ms`);
+}
+
+// START optional code
 // only used for 'nicer' animation of loading screen
+// loading screen has fixed transition time
+bgs[1].style.setProperty("--backgroundTwoTransition", `opacity 800ms`);
 function checkLoading() {
     if (pics.length == 0) {
-        return two.classList.contains('hide') ? 1200 : 50;
+        return bgs[1].classList.contains('hide') ? 1200 : 50;
     }
     return showTimeInMilliseconds;
 }
-
-async function startPictureLogic() {
-    // loading screen has fixed transition time
-    two.style.setProperty("--backgroundTwoTransition", `opacity 800ms`);
-    two.classList.toggle('hide');
-    pics = await fakeFetcher('url', 3000);
-    two.style.setProperty("--backgroundTwoTransition", `opacity ${fadeTimeInMilliseconds}ms`);
-}
+// END optional code
 
 startPictureLogic();

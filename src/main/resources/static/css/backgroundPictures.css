@@ -22,13 +22,13 @@ body, html {
     opacity: 1;
 }
 
-#bg1 {
+#bg0 {
     background-image: var(--initialBackgroundOne);
     background-color: green;
     z-index: -2
 }
 
-#bg2 {
+#bg1 {
     height: 100%;
     background-image: var(--initialBackgroundTwo);
     background-color: white;
@@ -36,6 +36,6 @@ body, html {
     z-index: -1
 }
 
-#bg2.hide {
+#bg1.hide {
     opacity: 0;
 }

@@ -20,11 +20,12 @@ fetchAsync(url)
 }
 
 function fakeFetcher(url, simulatedWaitTime = 10000) {
+    console.log('start to simulate async fetch operation...');
     return new Promise(
         function(resolve, reject) {
             setTimeout(function () {
                 result = urls;
-                console.log('simulated fetch time over...');
+                console.log('simulated fetch result arrived!');
                 resolve(urls);
             }, simulatedWaitTime);
         }
