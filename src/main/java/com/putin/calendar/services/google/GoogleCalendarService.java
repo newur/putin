@@ -4,7 +4,6 @@ import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.putin.calendar.model.CalendarEvent;
-import com.putin.user.UserSettingsProvider;
 import com.putin.user.model.CalendarSetting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +17,9 @@ public class GoogleCalendarService {
 
     private final GoogleCalendarSettingFormatter formatter;
 
-
     @Autowired
     public GoogleCalendarService(GoogleCalendarSettingFormatter formatter) {
         this.formatter = formatter;
-    }
-
-    public static String checkAuthorization(){
-        return "";
     }
 
     public List<CalendarEvent> getCalendarEvents(String username, String calendarID){

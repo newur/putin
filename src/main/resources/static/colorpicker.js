@@ -32,4 +32,4 @@ Vue.component("color-picker-dropdown", {
 	}
 });
 
-var colors = ["#000000","#FFA07A","#CD5C5C","#DC143C","#20B2AA","#008B8B","#4682B4"];
+var colors = ["#000000","#00FF66","#00FF7F","#00FFFF","#00FFCC","#00F5FF","#00BFFF"];

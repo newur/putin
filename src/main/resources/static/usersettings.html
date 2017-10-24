@@ -7,7 +7,7 @@
     <script src="./frameworks/vue.js"></script>
     <script src="colorpicker.js"></script>
     <script src="usersettings.js"></script>
-    <link rel="stylesheet" href="colorpicker.css">
+    <link rel="stylesheet" href="css/colorpicker.css">
 </head>
 <body>
 
@@ -30,7 +30,7 @@
                 <tr v-for="s in settings.calendarSettings">
                     <td><input type="checkbox" id="checkbox" v-model="s.selected"></td>
                     <td>{{ s.name }}</td>
-                    <td><color-picker-dropdown v-model="s.color" :initial="s.color" /></td>
+                    <td><color-picker-dropdown v-model="s.color" :initial="s.color" ></color-picker-dropdown></td>
                 </tr>
             </tbody>
         </table>

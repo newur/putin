@@ -12,7 +12,6 @@ public class GoogleCalendarSettingFormatterTest {
         UserSettingsProvider userSettingsProvider = Mockito.mock(UserSettingsProvider.class);
         GoogleCalendarSettingFormatter formatter = new GoogleCalendarSettingFormatter(userSettingsProvider);
 
-        //formatter.checkCalendarSelection()
     }
 
 }

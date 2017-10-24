@@ -27,16 +27,16 @@ Vue.component("calendarEvents", {
 Vue.component("calendarDays", {
     template: `<div>
                    <div v-for="day in calendardata">
-                        <div> {{ day.dayRepresentation }}
+                        <div style="font-weight: 600; color: #D3D3D3;"> {{ day.dayPrefix }} {{ day.dayString }}
                           <table>
-                              <tr v-for="event in day.calendarEvents">
+                              <tr v-for="dea in day.assignedCalendarEvents">
                                   <td>
-                                      <div :style="{color: event.color}">{{event.startAsString}}</div>
-                                      <div :style="{color: event.color}">{{event.name}}</div>
+                                      <div style="font-weight: 600" :style="{color: dea.calendarEvent.color}">{{dea.prefix}} {{dea.calendarEvent.name}} {{dea.suffix}}</div>
                                   </td>
                               </tr>
                           </table>
                        </div>
+                       </br>
                    </div>
                </div>`,
     props: ['calendardata']

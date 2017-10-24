@@ -1,8 +1,12 @@
 package com.putin.calendar.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class CalendarEvent {
 
@@ -10,20 +14,19 @@ public class CalendarEvent {
     private String description;
     private String location;
     private String color;
-    private Date start;
-    private Date end;
-    private boolean allday;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
     public CalendarEvent() {
     }
 
-    public CalendarEvent(String name, String description, String location, Date start, Date end, boolean allday) {
+    public CalendarEvent(String name, String description, String location, LocalDateTime start, LocalDateTime end) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.start = start;
         this.end = end;
-        this.allday = allday;
+
     }
 
     public String getName() { return name; }
@@ -48,28 +51,20 @@ public class CalendarEvent {
         this.location = location;
     }
 
-    public Date getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public LocalDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDateTime end) {
         this.end = end;
-    }
-
-    public boolean isAllday() {
-        return allday;
-    }
-
-    public void setAllday(boolean allday) {
-        this.allday = allday;
     }
 
     public String getColor() {
@@ -81,19 +76,39 @@ public class CalendarEvent {
     }
 
     public String getStartAsString(){
-        if(start!=null && !allday)
-            return new SimpleDateFormat("HH:mm", Locale.GERMAN).format(start);
+        if(start!=null && !isAllday())
+            return start.format((DateTimeFormatter.ofPattern("HH:mm")));
         else return "";
-    }
-
-    public String getStartDayAsString(){
-        return new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN).format(start);
     }
 
     public String getEndAsString(){
-        if(end!=null && !allday)
-            return new SimpleDateFormat("HH:mm", Locale.GERMAN).format(end);
+        if(end!=null && !isAllday())
+            return end.format((DateTimeFormatter.ofPattern("HH:mm")));
         else return "";
+    }
+
+    public boolean isMultiday(){
+        return (!this.isAllday() && !this.start.toLocalDate().equals(this.end.toLocalDate()));
+    }
+
+    public boolean isAllday(){
+        return this.start.toLocalTime().equals(LocalDateTime.MIN.toLocalTime());
+    }
+
+    public List<LocalDate> getMiddleDays(){
+        List<LocalDate> days = new ArrayList<>();
+        LocalDate currDay = start.toLocalDate().plusDays(1);
+        if(isMultiday()){
+            while (!currDay.equals(end.toLocalDate())){
+                days.add(currDay);
+                currDay = currDay.plusDays(1);
+            }
+        }
+        return days;
+    }
+
+    public int getDaysNo(){
+        return ((int) DAYS.between(start.toLocalDate(), end.toLocalDate()) + 1);
     }
 
 

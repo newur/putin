@@ -4,7 +4,7 @@ window.onload = function () {
       el: "#main",
       data: {
         calendardata: '',
-        variant: 'calendarEvents'
+        variant: 'calendarDays'
       }
     });
 

@@ -40,7 +40,7 @@ public class GoogleCalendarSettingFormatter {
         return calendarSettings;
     }
 
-    public CalendarSetting checkCalendarSelection(String id){
+    private CalendarSetting checkCalendarSelection(String id){
         for(CalendarSetting calendarSetting : userSettingsProvider.getUserSettings().getCalendarSettings()){
             if(calendarSetting.getId().equals(id))
                 return calendarSetting;

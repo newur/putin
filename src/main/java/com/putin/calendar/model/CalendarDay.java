@@ -1,48 +1,48 @@
 package com.putin.calendar.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.putin.calendar.util.DateFormatter;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 public class CalendarDay {
 
-    private Date day;
-    private List<CalendarEvent> calendarEvents;
+    private LocalDate day;
+    private List<CalendarDayEvent> assignedCalendarEvents = new ArrayList<>();
 
-    public CalendarDay() {
-    }
-
-    public CalendarDay(Date day) {
+    public CalendarDay(LocalDate day) {
         this.day = day;
     }
 
-    public CalendarDay(Date day, List<CalendarEvent> calendarEvents) {
-        this.day = day;
-        this.calendarEvents = calendarEvents;
-    }
-
-    public Date getDay() {
+    public LocalDate getDay() {
         return day;
     }
 
-    public void setDay(Date day) {
+    public void setDay(LocalDate day) {
         this.day = day;
     }
 
-    public List<CalendarEvent> getCalendarEvents() {
-        return calendarEvents;
+    public List<CalendarDayEvent> getAssignedCalendarEvents() {
+        Collections.sort(this.assignedCalendarEvents, new Comparator<CalendarDayEvent>() {
+            public int compare(CalendarDayEvent o1, CalendarDayEvent o2) {
+                return Boolean.compare(!o1.getCalendarEvent().isAllday(),!o2.getCalendarEvent().isAllday());
+            }
+        });
+        return assignedCalendarEvents;
     }
 
-    public void setCalendarEvents(List<CalendarEvent> calendarEvents) {
-        this.calendarEvents = calendarEvents;
+    public void setAssignedCalendarEvents(List<CalendarDayEvent> assignedCalendarEvents) {
+        this.assignedCalendarEvents = assignedCalendarEvents;
     }
 
-    public String getDayAsString(){
-        return new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN).format(day);
+    public String getDayString(){
+        return DateFormatter.getDayString(this.day);
     }
 
-    public String getDayRepresentation(){
-        return new SimpleDateFormat("dd EE", Locale.GERMAN).format(day);
+    public String getDayPrefix(){
+        return DateFormatter.getDayPrefix(this.day);
     }
 }

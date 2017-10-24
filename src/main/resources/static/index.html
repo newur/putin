@@ -9,13 +9,21 @@
         <script src="authorization.js"></script>
         <script src="calendar.js"></script>
         <script src="index.js"></script>
-		<link rel="stylesheet" href="calendar.css">
+		<link rel="stylesheet" href="css/calendar.css">
+        <link rel="stylesheet" href="css/backgroundPictures.css">
     </head>
 
     <body class="body">
+
+        <div id="bg0" class="bg"></div>
+        <div id="bg1" class="bg"></div>
+
+        <script src="./fetchRequest.js"></script>
+        <script src="./pictures.js"></script>
+
         <div id="main">
-            <!--<calendar :events="calendarEvents" :variant="variant"></calendar>-->
             <calendar :calendardata="calendardata" :variant="variant"></calendar>
         </div>
+
     </body>
 </html>

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-public class UserSettingsService {
+class UserSettingsService {
 
     private final GoogleCalendarService googleCalendarService;
     private final UserSettingsProvider userSettingsProvider;
@@ -55,7 +55,7 @@ public class UserSettingsService {
             return "success";
         }
         else
-            return GoogleCalendarAuthorization.getGoogleLoginUri(userSettings.getUsername(),"http://localhost:8080/authorize");
+            return GoogleCalendarAuthorization.getGoogleLoginUri("http://localhost:8080/authorize");
     }
 
     @RequestMapping("/authorize")

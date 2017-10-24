@@ -3,7 +3,7 @@ package com.putin.calendar;
 import com.putin.calendar.model.CalendarDay;
 import com.putin.calendar.services.google.GoogleCalendarService;
 import com.putin.calendar.model.CalendarEvent;
-import com.putin.calendar.util.CalendarDayCreator;
+import com.putin.calendar.util.CalendarDayBuilder;
 import com.putin.calendar.util.CalendarEventAdapter;
 import com.putin.user.UserSettingsProvider;
 import com.putin.user.model.CalendarSetting;
@@ -19,7 +19,7 @@ import java.util.List;
 import static java.util.stream.Collectors.*;
 
 @RestController
-public class CalendarService {
+class CalendarService {
 
     private final GoogleCalendarService googleCalendarService;
     private final UserSettingsProvider userSettingsProvider;
@@ -57,10 +57,10 @@ public class CalendarService {
                         calendarSetting));
             }
         }
-        return CalendarDayCreator.getCalendarDays(calendarEvents)
+        return CalendarDayBuilder.getCalendarDays(calendarEvents)
                 .stream()
                 .sorted(Comparator.comparing(CalendarDay::getDay))
-                .collect(toList());
+                .collect(toList()).subList(0,10);
     }
 
 }

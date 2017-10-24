@@ -1,7 +1,6 @@
 package com.putin.utils;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

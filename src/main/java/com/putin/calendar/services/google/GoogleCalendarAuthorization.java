@@ -64,7 +64,7 @@ public class GoogleCalendarAuthorization {
 		return aciae.checkAuthorization(user);
 	}
 
-	public static String getGoogleLoginUri(String user, String redirectUri){
+	public static String getGoogleLoginUri(String redirectUri){
 		GoogleAuthorizationCodeInstalledAppExtended aciae = null;
 		try {
 			aciae = new GoogleAuthorizationCodeInstalledAppExtended(initializeFlow(), new LocalServerReceiver());

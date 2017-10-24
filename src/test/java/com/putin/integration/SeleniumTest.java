@@ -1,14 +1,11 @@
 package com.putin.integration;
 
 import com.putin.integration.AbstractSeleniumTest;
-import com.putin.utils.GeckoDriverFinder;
 import com.putin.utils.StringTransformer;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
