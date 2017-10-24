@@ -1,0 +1,14 @@
+#clock {
+    margin-bottom: 30px;
+}
+.time {
+        font-size: 60px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin: 0px;
+}
+.date {
+        font-weight: 600;
+        color: #FFFFFF;
+        margin: 0px;
+}

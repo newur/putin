@@ -9,7 +9,10 @@
         <script src="authorization.js"></script>
         <script src="calendar.js"></script>
         <script src="index.js"></script>
+        <script src="station-clock.js"></script>
+        <script src="clock.js"></script>
 		<link rel="stylesheet" href="css/calendar.css">
+        <link rel="stylesheet" href="css/clock.css">
         <link rel="stylesheet" href="css/backgroundPictures.css">
     </head>
 
@@ -22,6 +25,7 @@
         <script src="./pictures.js"></script>
 
         <div id="main">
+            <clock :variant="clockvariant"></clock>
             <calendar :calendardata="calendardata" :variant="variant"></calendar>
         </div>
 

@@ -4,7 +4,8 @@ window.onload = function () {
       el: "#main",
       data: {
         calendardata: '',
-        variant: 'calendarDays'
+        variant: 'calendarDays',
+        clockvariant: 'analog'
       }
     });
 
