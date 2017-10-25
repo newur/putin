@@ -11,9 +11,12 @@
         <script src="index.js"></script>
         <script src="station-clock.js"></script>
         <script src="clock.js"></script>
-		<link rel="stylesheet" href="css/calendar.css">
+        <script src="vue-draggable-resizable.js"></script>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/calendar.css">
         <link rel="stylesheet" href="css/clock.css">
         <link rel="stylesheet" href="css/backgroundPictures.css">
+        <link rel="stylesheet" href="css/vue-draggable-resizable.css">
     </head>
 
     <body class="body">
@@ -24,8 +27,8 @@
         <script src="./fetchRequest.js"></script>
         <script src="./pictures.js"></script>
 
-        <div id="main">
-            <clock :variant="clockvariant"></clock>
+        <div id="main" class="main">
+            <clock :variant="settings.clockType"></clock>
             <calendar :calendardata="calendardata" :variant="variant"></calendar>
         </div>
 

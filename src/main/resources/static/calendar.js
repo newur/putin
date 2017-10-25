@@ -27,7 +27,7 @@ Vue.component("calendarEvents", {
 Vue.component("calendarDays", {
     template: `<div>
                    <div v-for="day in calendardata">
-                        <div style="font-weight: 600; color: #D3D3D3;"> {{ day.dayPrefix }} {{ day.dayString }}
+                        <div style="font-weight: 600; color: #F0FFFF;"> {{ day.dayPrefix }} {{ day.dayString }}
                           <table>
                               <tr v-for="dea in day.assignedCalendarEvents">
                                   <td>

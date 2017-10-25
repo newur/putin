@@ -34,8 +34,18 @@
                 </tr>
             </tbody>
         </table>
+        <h2>Date/Time settings</h2>
+        <span>Clock Type</span>
+        <select v-model="settings.clockType">
+            <option disabled value="">Please select one</option>
+            <option value="analog">Bahnhofsuhr (analog)</option>
+            <option value="digital">Digitaluhr</option>
+        </select>
         <br/>
-        <input type="submit" id="submitButton"  name="submitButton" value="Save" /> {{ msg }}
+        <br/>
+        <input type="submit" id="submitButton"  name="submitButton" value="Save" />
+        <span style="font-size: 12px;">{{ msg }}</span>
+
     </form>
 
 </body>

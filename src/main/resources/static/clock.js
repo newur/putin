@@ -41,27 +41,22 @@ Vue.component("digital", {
 var week = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
 
 Vue.component("analog", {
-	template: `<div>
-	                <canvas id="clock" width="200" height="200">
-                    </canvas>
-               </div>`,
+	template: `<canvas id="clock" width="200" height="200">
+               </canvas>`,
     data: function() {
     		return {
     			clock: ''
     		}
     },
-	mounted: function() {
-	    this.clock = new StationClock("clock");
-        this.clock.body = StationClock.RoundBody;
-        this.clock.dial = StationClock.SwissStrokeDial;
-        this.clock.hourHand = StationClock.SwissHourHand;
-        this.clock.minuteHand = StationClock.SwissMinuteHand;
-        this.clock.secondHand = StationClock.SwissSecondHand;
-        this.clock.boss = StationClock.NoBoss;
-        this.clock.minuteHandBehavoir = StationClock.BouncingMinuteHand;
-        this.clock.secondHandBehavoir = StationClock.OverhastySecondHand;
-        this.timer = setInterval(this.clock.draw(), 1000);
+    created: function() {
+            this.clock = new AnalogClock("clock");
+            this.timer = setInterval(this.updateTime, 1000)
     },
+    methods: {
+        updateTime: function() {
+            this.clock.draw();
+        }
+    }
 });
 
 

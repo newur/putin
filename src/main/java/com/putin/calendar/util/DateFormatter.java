@@ -9,9 +9,9 @@ public class DateFormatter {
     public static String getDayPrefix(LocalDate day){
         LocalDate today = LocalDate.now();
         if(day.equals(today))
-            return "Heute";
+            return "Heute,";
         else if(day.equals(today.plusDays(1)))
-            return "Morgen";
+            return "Morgen,";
         else
             return "";
     }

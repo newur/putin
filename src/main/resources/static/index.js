@@ -4,6 +4,7 @@ window.onload = function () {
       el: "#main",
       data: {
         calendardata: '',
+        settings: '',
         variant: 'calendarDays',
         clockvariant: 'analog'
       }
@@ -12,6 +13,11 @@ window.onload = function () {
     // get calendar data
     $.getJSON( "/"+vm.variant, function( data ) {
         vm.calendardata=data;
+    });
+
+    // get usersettings
+    $.getJSON( "/getUser", function( data ) {
+        vm.settings=data;
     });
 
 
