@@ -1,30 +1,91 @@
+Vue.component("clock", {
+    template: `<div>
+                    <component :is="variant"></component>
+               </div>`,
+    props: ['variant']
+});
+
+Vue.component("digital", {
+	template: `<div id="clock">
+                   <p class="time">{{ time }}</p>
+                   <p class="date">{{ date }}</p>
+               </div>`,
+	data: function() {
+		return {
+			date: '',
+			time: ''
+		}
+	},
+	created: function() {
+        this.updateTime();
+        this.timer = setInterval(this.updateTime, 300000)
+    },
+    methods: {
+
+        updateTime: function() {
+            var cd = new Date();
+            this.time = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2);
+            this.date = week[cd.getDay()] + ", " + this.zeroPadding(cd.getDate(), 2) + '.' + this.zeroPadding(cd.getMonth()+1, 2) + '.' + this.zeroPadding(cd.getFullYear(), 4);
+        },
+        zeroPadding: function(num, digit){
+            var zero = '';
+            for(var i = 0; i < digit; i++) {
+                zero += '0';
+            }
+            return (zero + num).slice(-digit);
+        }
+
+    }
+});
+
+var week = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+
+Vue.component("analog", {
+	template: `<canvas id="clock" width="200" height="200">
+               </canvas>`,
+    data: function() {
+    		return {
+    			clock: ''
+    		}
+    },
+    created: function() {
+            this.clock = new AnalogClock("clock");
+            this.timer = setInterval(this.updateTime, 1000)
+    },
+    methods: {
+        updateTime: function() {
+            this.clock.draw();
+        }
+    }
+});
+
 function AnalogClock(clockId) {
-  this.clockId = clockId; 
+  this.clockId = clockId;
   this.radius  = 0;
 
   // hour offset
   this.hourOffset = 0;
-  
+
   // clock body
   this.bodyShadowColor   = "rgba(0,0,0,0.5)";
   this.bodyShadowOffsetX = 0.03;
   this.bodyShadowOffsetY = 0.03;
   this.bodyShadowBlur    = 0.06;
-  
+
   // body dial
   this.dialColor         = 'rgb(60,60,60)';
-  
+
   // clock hands
   this.handShadowColor   = 'rgba(0,0,0,0.3)';
   this.handShadowOffsetX = 0.03;
   this.handShadowOffsetY = 0.03;
   this.handShadowBlur    = 0.04;
-	
+
 	// clock colors
   this.hourHandColor     = 'rgb(0,0,0)';
   this.minuteHandColor   = 'rgb(0,0,0)';
   this.secondHandColor   = 'rgb(200,0,0)';
-  
+
   // clock boss
   this.bossShadowColor   = "rgba(0,0,0,0.2)";
   this.bossShadowOffsetX = 0.02;
@@ -38,7 +99,7 @@ AnalogClock.prototype.draw = function() {
     var context = clock.getContext('2d');
     if (context) {
       this.radius = 0.75 * (Math.min(clock.width, clock.height) / 2);
-      
+
       // clear canvas and set new origin
       context.clearRect(0, 0, clock.width, clock.height);
       context.save();
@@ -49,7 +110,7 @@ AnalogClock.prototype.draw = function() {
       this.fillCircle(context, "rgb(255,255,255)", 0, 0, 1);
       context.restore();
 
-      
+
       // draw dial
       for (var i = 0; i < 60; i++) {
         context.save();
@@ -77,14 +138,14 @@ AnalogClock.prototype.draw = function() {
       this.setShadow(context, this.handShadowColor, this.handShadowOffsetX, this.handShadowOffsetY, this.handShadowBlur);
       this.fillPolygon(context, this.hourHandColor, 0.0, -0.6,  0.065, -0.53, 0.065, 0.19, -0.065, 0.19, -0.065, -0.53);
       context.restore();
-      
+
       // draw minute hand
       context.save();
       context.rotate(minutes * Math.PI / 30);
       this.setShadow(context, this.handShadowColor, this.handShadowOffsetX, this.handShadowOffsetY, this.handShadowBlur);
       this.fillPolygon(context, this.minuteHandColor, 0.0, -0.93,  0.045, -0.885, 0.045, 0.23, -0.045, 0.23, -0.045, -0.885);
       context.restore();
-      
+
       // draw second hand
       context.save();
       context.rotate(seconds * Math.PI / 30);

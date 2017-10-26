@@ -3,22 +3,20 @@ window.onload = function () {
     var vm = new Vue({
       el: "#main",
       data: {
-        calendardata: '',
-        settings: '',
-        variant: 'calendarDays',
-        clockvariant: 'analog'
+          settings: ''
+      },
+      created: function() {
+          this.fetchSettings();
+          this.timer = setInterval(this.fetchSettings, 60000)
+      },
+      methods: {
+          fetchSettings: function() {
+              var self = this;
+              $.getJSON( "/getUser", function( data ) {
+                  self.settings=data;
+              });
+          },
       }
     });
-
-    // get calendar data
-    $.getJSON( "/"+vm.variant, function( data ) {
-        vm.calendardata=data;
-    });
-
-    // get usersettings
-    $.getJSON( "/getUser", function( data ) {
-        vm.settings=data;
-    });
-
 
 }

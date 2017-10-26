@@ -1,14 +1,14 @@
 Vue.component("calendar", {
     template: `<div>
-                    <component :is="variant" :calendardata="calendardata"></component>
+                    <component :is="variant"></component>
                </div>`,
-    props: ['calendardata','variant']
+    props: ['variant']
 });
 
-Vue.component("calendarEvents", {
+Vue.component("events", {
     template: `<div>
                     <table>
-                        <tr v-for="(event, index) in calendardata">
+                        <tr v-for="(event, index) in this.calendardata">
                            <td>
                                 <div :style="{color: event.color}">{{event.startDayAsString}}</div>
                            </td>
@@ -21,12 +21,28 @@ Vue.component("calendarEvents", {
                         </tr>
                     </table>
                </div>`,
-    props: ['calendardata']
+    data: function(){
+        return {
+            calendardata: '',
+        }
+    },
+    mounted: function() {
+            this.updateCalendar();
+            this.timer = setInterval(this.updateCalendar, 60000)
+    },
+    methods: {
+        updateCalendar: function() {
+            var self = this;
+            $.getJSON( "/calendarEvents", function( data ) {
+                self.calendardata=data;
+            });
+        },
+    }
 });
 
-Vue.component("calendarDays", {
+Vue.component("days", {
     template: `<div>
-                   <div v-for="day in calendardata">
+                   <div v-for="day in this.calendardata">
                         <div style="font-weight: 600; color: #F0FFFF;"> {{ day.dayPrefix }} {{ day.dayString }}
                           <table>
                               <tr v-for="dea in day.assignedCalendarEvents">
@@ -39,5 +55,21 @@ Vue.component("calendarDays", {
                        </br>
                    </div>
                </div>`,
-    props: ['calendardata']
+    data: function(){
+        return {
+            calendardata: '',
+        }
+    },
+    mounted: function() {
+            this.updateCalendar();
+            this.timer = setInterval(this.updateCalendar, 60000)
+    },
+    methods: {
+        updateCalendar: function() {
+            var self = this;
+            $.getJSON( "/calendarDays", function( data ) {
+                self.calendardata=data;
+            });
+        },
+    }
 });

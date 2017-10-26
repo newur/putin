@@ -3,33 +3,24 @@
     <head>
         <meta charset="utf-8"/>
         <title>Putin</title>
-        <script src="./frameworks/jquery.min.js"></script>
-        <script src="./frameworks/vue.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="/frameworks/jquery.min.js"></script>
+        <script src="/frameworks/vue.js"></script>
         <script src="authorization.js"></script>
-        <script src="calendar.js"></script>
         <script src="index.js"></script>
-        <script src="station-clock.js"></script>
-        <script src="clock.js"></script>
-        <script src="vue-draggable-resizable.js"></script>
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/calendar.css">
-        <link rel="stylesheet" href="css/clock.css">
-        <link rel="stylesheet" href="css/backgroundPictures.css">
-        <link rel="stylesheet" href="css/vue-draggable-resizable.css">
+        <script src="/vue-components/pictures/pictures.js"></script>
+        <script src="/vue-components/clock/clock.js"></script>
+        <script src="/vue-components/calendar/calendar.js"></script>
+        <link rel="stylesheet" href="/vue-components/pictures/pictures.css">
+        <link rel="stylesheet" href="/vue-components/clock/clock.css">
+        <link rel="stylesheet" href="/vue-components/calendar/calendar.css">
     </head>
 
     <body class="body">
 
-        <div id="bg0" class="bg"></div>
-        <div id="bg1" class="bg"></div>
-
-        <script src="./fetchRequest.js"></script>
-        <script src="./pictures.js"></script>
-
         <div id="main" class="main">
+            <pictures></pictures>
             <clock :variant="settings.clockType"></clock>
-            <calendar :calendardata="calendardata" :variant="variant"></calendar>
+            <calendar :variant="settings.calendarType"></calendar>
         </div>
 
     </body>
