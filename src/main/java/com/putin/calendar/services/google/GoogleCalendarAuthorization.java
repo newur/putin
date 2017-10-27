@@ -12,7 +12,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class GoogleCalendarAuthorization {
@@ -22,8 +22,9 @@ public class GoogleCalendarAuthorization {
 	private static FileDataStoreFactory DATA_STORE_FACTORY;
 	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 	private static HttpTransport HTTP_TRANSPORT;
-	private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-
+	private static final List<String> SCOPES = Arrays.asList(
+			"https://picasaweb.google.com/data/",
+			CalendarScopes.CALENDAR_READONLY);
 	static {
 		try {
 			HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();

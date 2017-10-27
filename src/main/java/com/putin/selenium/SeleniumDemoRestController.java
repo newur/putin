@@ -24,4 +24,10 @@ public class SeleniumDemoRestController {
     public List<String> findPicUrlsDemo() {
         return seleniumService.findPictureUrlsFromFirstAlbum();
     }
+
+    @GetMapping
+    @RequestMapping("albums")
+    public List<String> getAlbums() {
+        return seleniumService.getAlbums();
+    }
 }

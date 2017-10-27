@@ -10,19 +10,19 @@ import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 
-class GoogleAuthorizationCodeInstalledAppExtended extends AuthorizationCodeInstalledApp {
+public class GoogleAuthorizationCodeInstalledAppExtended extends AuthorizationCodeInstalledApp {
 
     private final AuthorizationCodeFlow flow;
     private final VerificationCodeReceiver receiver;
 
-    GoogleAuthorizationCodeInstalledAppExtended(
+    public GoogleAuthorizationCodeInstalledAppExtended(
             AuthorizationCodeFlow flow, VerificationCodeReceiver receiver) {
         super(flow,receiver);
         this.flow = Preconditions.checkNotNull(flow);
         this.receiver = Preconditions.checkNotNull(receiver);
     }
 
-    Credential checkAuthorization(String userId){
+    public Credential checkAuthorization(String userId){
         Credential credential = null;
         try {
             credential = flow.loadCredential(userId);
@@ -36,13 +36,13 @@ class GoogleAuthorizationCodeInstalledAppExtended extends AuthorizationCodeInsta
         return null;
     }
 
-    String getGoogleLoginUri(String redirectUri){
+    public String getGoogleLoginUri(String redirectUri){
         AuthorizationCodeRequestUrl authorizationUrl =
                 flow.newAuthorizationUrl().setRedirectUri(redirectUri);
         return authorizationUrl.build();
     }
 
-    Credential doAuthorize(String userId, String code, String redirectUri) throws IOException {
+    public Credential doAuthorize(String userId, String code, String redirectUri) throws IOException {
         try {
             TokenResponse response = flow.newTokenRequest(code).setRedirectUri(redirectUri).execute();
             return flow.createAndStoreCredential(response, userId);

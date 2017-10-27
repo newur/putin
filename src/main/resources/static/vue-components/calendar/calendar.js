@@ -1,5 +1,5 @@
 Vue.component("calendar", {
-    template: `<div>
+    template: `<div class="calendardiv">
                     <component :is="variant"></component>
                </div>`,
     props: ['variant']

@@ -43,6 +43,7 @@ class UserSettingsService {
     public boolean createUser(@RequestParam("username") String username){
         UserSettings userSettings = new UserSettings();
         userSettings.setUsername(username);
+        userSettings.setPictureTime(10);
         userSettingsProvider.setUserSettings(userSettings);
         return true;
     }

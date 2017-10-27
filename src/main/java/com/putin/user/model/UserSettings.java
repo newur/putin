@@ -9,6 +9,7 @@ public class UserSettings {
     private List<CalendarSetting> calendarSettings = new ArrayList<>();
     private String clockType;
     private String calendarType;
+    private int pictureTime;
 
     public String getUsername() {
         return username;
@@ -40,6 +41,14 @@ public class UserSettings {
 
     public void setCalendarType(String calendarType) {
         this.calendarType = calendarType;
+    }
+
+    public int getPictureTime() {
+        return pictureTime;
+    }
+
+    public void setPictureTime(int pictureTime) {
+        this.pictureTime = pictureTime;
     }
 
 }

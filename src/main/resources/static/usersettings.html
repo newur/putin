@@ -48,11 +48,13 @@
             <option value="analog">Bahnhofsuhr (analog)</option>
             <option value="digital">Digitaluhr</option>
         </select>
+        <h2>Picture settings</h2>
+        <span>Picture Type</span>
+        <input v-model="settings.pictureTime">
         <br/>
         <br/>
         <input type="submit" id="submitButton"  name="submitButton" value="Save" />
         <span style="font-size: 12px;">{{ msg }}</span>
-
     </form>
 
 </body>

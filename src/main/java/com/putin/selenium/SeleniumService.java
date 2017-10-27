@@ -14,8 +14,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.lang.Thread.sleep;
 
 @Service
 public class SeleniumService {
@@ -36,7 +39,18 @@ public class SeleniumService {
         firefoxBinary.addCommandLineOptions("-headless");
 
         this.driver = new FirefoxDriver(new FirefoxOptions().setBinary(firefoxBinary));
-        this.wait = new WebDriverWait(driver, 10);
+        this.wait = new WebDriverWait(driver, 60);
+    }
+
+    public List<String> getAlbums() {
+        initSelenium();
+
+        driver.navigate().to("https://photos.google.com/albums");
+
+        login();
+        List<String> albumNames = findAlbums();
+        driver.quit();
+        return albumNames;
     }
 
     public List<String> findPictureUrlsFromFirstAlbum() {
@@ -61,8 +75,24 @@ public class SeleniumService {
         password.sendKeys(Keys.ENTER);
     }
 
+    private List<String> findAlbums() {
+        List<String> albumNames = new ArrayList<>();
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.get("https://photos.google.com/albums");
+        List<WebElement> albums = wait.until(elementsVisibleWithClassName("mfQCMe"));
+        for(WebElement album: albums){
+            albumNames.add(album.getText());
+        }
+        return albumNames;
+    }
+
     private void openFirstAlbum() {
-        List<WebElement> albums = wait.until(elementsVisibleWithClassName("MTmRkb"));
+        driver.get("https://photos.google.com/albums");
+        List<WebElement> albums = wait.until(elementsVisibleWithClassName("mfQCMe"));
 
         if (albums.size() > 1) {
             albums.get(1).click();
