@@ -12,6 +12,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.gdata.client.photos.PicasawebService;
 import com.google.gdata.data.MediaContent;
+import com.google.gdata.data.OutOfLineContent;
 import com.google.gdata.data.photos.*;
 import com.google.gdata.util.ServiceException;
 import com.putin.calendar.services.google.GoogleAuthorizationCodeInstalledAppExtended;
@@ -42,16 +43,17 @@ public class GooglePhotoService {
         }
     }
 
-    public void getPhotos() throws IOException, ServiceException {
+    public void getPhotos(String albumId) throws IOException, ServiceException {
         PicasawebService picasawebService = new PicasawebService("Putin");
         Credential credential = checkAuthorization("Vladi");
         picasawebService.setOAuth2Credentials(credential);
 
-        URL feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/lapotschka.putin@gmail.com/albumid/6481690100628020145");
+        URL feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/lapotschka.putin@gmail.com/albumid/"+albumId);
         AlbumFeed feed = picasawebService.getFeed(feedUrl, AlbumFeed.class);
 
         for (GphotoEntry gPhotoEntry : feed.getEntries()) {
-            //get photo url
+            OutOfLineContent outOfLineContent = (OutOfLineContent) gPhotoEntry.getContent();
+            System.out.println(outOfLineContent.getUri());
         }
     }
 
@@ -65,7 +67,7 @@ public class GooglePhotoService {
 
         for (GphotoEntry gPhotoEntry : myUserFeed.getEntries()) {
             System.out.println(gPhotoEntry.getTitle().getPlainText());
-            System.out.println(gPhotoEntry.getGphotoId());
+            getPhotos(gPhotoEntry.getGphotoId());
         }
     }
 

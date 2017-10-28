@@ -8,19 +8,12 @@ import java.io.IOException;
 public class GooglePhotoServiceTest {
 
     @Test
-    public void getAlbumsTest() throws IOException, ServiceException {
+    public void getPhotosTest() throws IOException, ServiceException {
 
         GooglePhotoService googlePhotoService = new GooglePhotoService();
         googlePhotoService.getAlbums();
 
     }
 
-    @Test
-    public void getPhotosTest() throws IOException, ServiceException {
-
-        GooglePhotoService googlePhotoService = new GooglePhotoService();
-        googlePhotoService.getPhotos();
-
-    }
 
 }
