@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-class GoogleCalendarEventFormatter {
+class GCalendarEventFormatter {
 
         static List<CalendarEvent> standardizeCalendarEvents(List<Event> events){
             List<CalendarEvent> calendarEvents= new ArrayList<>();

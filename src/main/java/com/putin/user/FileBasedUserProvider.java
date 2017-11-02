@@ -2,23 +2,22 @@ package com.putin.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.putin.user.UserSettingsProvider;
-import com.putin.user.model.UserSettings;
+import com.putin.user.model.User;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
 @Service
-public class FileBasedUserSettingsProvider implements UserSettingsProvider {
+public class FileBasedUserProvider implements UserProvider {
 
     @Override
-    public UserSettings getUserSettings() {
+    public User getUserSettings() {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        UserSettings userSettings;
+        User user;
         try {
-            userSettings = mapper.readValue(new File(System.getenv("putin_credentials")+"/usersettings.yaml"), UserSettings.class);
-            return userSettings;
+            user = mapper.readValue(new File(System.getenv("putin_credentials")+"/usersettings.yaml"), User.class);
+            return user;
         } catch (FileNotFoundException e) {
             System.err.println("File usersettings.yaml not found.");
             return null;
@@ -29,10 +28,10 @@ public class FileBasedUserSettingsProvider implements UserSettingsProvider {
     }
 
     @Override
-    public boolean setUserSettings(UserSettings userSettings) {
+    public boolean setUserSettings(User user) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
-            mapper.writeValue(new File(System.getenv("putin_credentials")+"/usersettings.yaml"), userSettings);
+            mapper.writeValue(new File(System.getenv("putin_credentials")+"/usersettings.yaml"), user);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

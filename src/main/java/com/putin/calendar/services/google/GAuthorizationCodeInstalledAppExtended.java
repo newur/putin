@@ -10,12 +10,12 @@ import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 
-public class GoogleAuthorizationCodeInstalledAppExtended extends AuthorizationCodeInstalledApp {
+public class GAuthorizationCodeInstalledAppExtended extends AuthorizationCodeInstalledApp {
 
     private final AuthorizationCodeFlow flow;
     private final VerificationCodeReceiver receiver;
 
-    public GoogleAuthorizationCodeInstalledAppExtended(
+    public GAuthorizationCodeInstalledAppExtended(
             AuthorizationCodeFlow flow, VerificationCodeReceiver receiver) {
         super(flow,receiver);
         this.flow = Preconditions.checkNotNull(flow);

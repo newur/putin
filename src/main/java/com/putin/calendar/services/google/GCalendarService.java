@@ -1,8 +1,10 @@
 package com.putin.calendar.services.google;
 
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
+import com.putin.authorization.services.google.GAuthorizationService;
 import com.putin.calendar.model.CalendarEvent;
 import com.putin.user.model.CalendarSetting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +15,28 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class GoogleCalendarService {
+public class GCalendarService {
 
-    private final GoogleCalendarSettingFormatter formatter;
+    private final GCalendarSettingFormatter formatter;
+    private final GAuthorizationService gAuthorizationService;
 
     @Autowired
-    public GoogleCalendarService(GoogleCalendarSettingFormatter formatter) {
+    public GCalendarService(GCalendarSettingFormatter formatter, GAuthorizationService gAuthorizationService) {
         this.formatter = formatter;
+        this.gAuthorizationService = gAuthorizationService;
+    }
+
+    public com.google.api.services.calendar.Calendar getCalendarService(String user) throws Exception {
+        Credential credential = gAuthorizationService.checkAuthorization(user);
+        return new com.google.api.services.calendar.Calendar.Builder(gAuthorizationService.getHTTP_TRANSPORT(),
+                gAuthorizationService.getJSON_FACTORY(), credential)
+                .setApplicationName(gAuthorizationService.getAPPLICATION_NAME()).build();
     }
 
     public List<CalendarEvent> getCalendarEvents(String username, String calendarID){
         List<Event> events = new ArrayList<>();
         try {
-            com.google.api.services.calendar.Calendar service =
-                    GoogleCalendarAuthorization.getCalendarService(username);
+            com.google.api.services.calendar.Calendar service = this.getCalendarService(username);
             events.addAll(service.events()
                     .list(calendarID)
                     .setMaxResults(30)
@@ -38,15 +48,13 @@ public class GoogleCalendarService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return GoogleCalendarEventFormatter.standardizeCalendarEvents(events);
+        return GCalendarEventFormatter.standardizeCalendarEvents(events);
     }
 
     public List<CalendarSetting> getCalendarSettings(String username) {
         List<CalendarListEntry> calendars = new ArrayList<>();
         try {
-            com.google.api.services.calendar.Calendar service =
-                    GoogleCalendarAuthorization.getCalendarService(username);
-
+            com.google.api.services.calendar.Calendar service = this.getCalendarService(username);
             calendars = service.calendarList()
                     .list()
                     .execute()

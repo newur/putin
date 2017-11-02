@@ -3,7 +3,7 @@ package com.putin.user.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserSettings {
+public class User {
 
     private String username;
     private List<CalendarSetting> calendarSettings = new ArrayList<>();

@@ -1,7 +1,7 @@
 package com.putin.calendar.services.google;
 
 import com.google.api.services.calendar.model.CalendarListEntry;
-import com.putin.user.UserSettingsProvider;
+import com.putin.user.UserProvider;
 import com.putin.user.model.CalendarSetting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class GoogleCalendarSettingFormatter {
+public class GCalendarSettingFormatter {
 
 
-    private final UserSettingsProvider userSettingsProvider;
+    private final UserProvider userProvider;
 
     @Autowired
-    public GoogleCalendarSettingFormatter(UserSettingsProvider userSettingsProvider) {
-        this.userSettingsProvider = userSettingsProvider;
+    public GCalendarSettingFormatter(UserProvider userProvider) {
+        this.userProvider = userProvider;
     }
 
      public List<CalendarSetting> standardizeCalendarSettings(List<CalendarListEntry> calendars){
@@ -41,7 +41,7 @@ public class GoogleCalendarSettingFormatter {
     }
 
     private CalendarSetting checkCalendarSelection(String id){
-        for(CalendarSetting calendarSetting : userSettingsProvider.getUserSettings().getCalendarSettings()){
+        for(CalendarSetting calendarSetting : userProvider.getUserSettings().getCalendarSettings()){
             if(calendarSetting.getId().equals(id))
                 return calendarSetting;
         }

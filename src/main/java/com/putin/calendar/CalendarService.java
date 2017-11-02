@@ -1,13 +1,13 @@
 package com.putin.calendar;
 
 import com.putin.calendar.model.CalendarDay;
-import com.putin.calendar.services.google.GoogleCalendarService;
+import com.putin.calendar.services.google.GCalendarService;
 import com.putin.calendar.model.CalendarEvent;
 import com.putin.calendar.util.CalendarDayBuilder;
 import com.putin.calendar.util.CalendarEventAdapter;
-import com.putin.user.UserSettingsProvider;
+import com.putin.user.UserProvider;
 import com.putin.user.model.CalendarSetting;
-import com.putin.user.model.UserSettings;
+import com.putin.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,23 +21,23 @@ import static java.util.stream.Collectors.*;
 @RestController
 class CalendarService {
 
-    private final GoogleCalendarService googleCalendarService;
-    private final UserSettingsProvider userSettingsProvider;
+    private final GCalendarService gCalendarService;
+    private final UserProvider userProvider;
 
     @Autowired
-    public CalendarService(GoogleCalendarService googleCalendarService, UserSettingsProvider userSettingsProvider) {
-        this.googleCalendarService = googleCalendarService;
-        this.userSettingsProvider = userSettingsProvider;
+    public CalendarService(GCalendarService gCalendarService, UserProvider userProvider) {
+        this.gCalendarService = gCalendarService;
+        this.userProvider = userProvider;
     }
 
     @RequestMapping("/calendarEvents")
     public List<CalendarEvent> getAllCalendarEvents(){
-        UserSettings userSettings = userSettingsProvider.getUserSettings();
+        User user = userProvider.getUserSettings();
         List<CalendarEvent> calendarEvents = new ArrayList<>();
-        for(CalendarSetting calendarSetting : userSettings.getCalendarSettings()){
+        for(CalendarSetting calendarSetting : user.getCalendarSettings()){
             if(calendarSetting.isSelected()) {
                 calendarEvents.addAll(CalendarEventAdapter.addCalenderSettingsToEvent(
-                        googleCalendarService.getCalendarEvents(userSettings.getUsername(),calendarSetting.getId()),
+                        gCalendarService.getCalendarEvents(user.getUsername(),calendarSetting.getId()),
                         calendarSetting));
             }
         }
@@ -48,12 +48,12 @@ class CalendarService {
 
     @RequestMapping("/calendarDays")
     public List<CalendarDay> getCalendarDays(){
-        UserSettings userSettings = userSettingsProvider.getUserSettings();
+        User user = userProvider.getUserSettings();
         List<CalendarEvent> calendarEvents = new ArrayList<>();
-        for(CalendarSetting calendarSetting : userSettings.getCalendarSettings()){
+        for(CalendarSetting calendarSetting : user.getCalendarSettings()){
             if(calendarSetting.isSelected()) {
                 calendarEvents.addAll(CalendarEventAdapter.addCalenderSettingsToEvent(
-                        googleCalendarService.getCalendarEvents(userSettings.getUsername(),calendarSetting.getId()),
+                        gCalendarService.getCalendarEvents(user.getUsername(),calendarSetting.getId()),
                         calendarSetting));
             }
         }
