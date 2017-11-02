@@ -6,10 +6,20 @@ import java.util.List;
 public class User {
 
     private String username;
-    private List<CalendarSetting> calendarSettings = new ArrayList<>();
+
+    //Time
     private String clockType;
+
+    //Calendar
     private String calendarType;
+    private List<CalendarSetting> calendarSettings = new ArrayList<>();
+
+    //Photos
     private int pictureTime;
+
+    // RSS
+    private String rssUrl;
+    private int rssTime;
 
     public String getUsername() {
         return username;
@@ -51,4 +61,19 @@ public class User {
         this.pictureTime = pictureTime;
     }
 
+    public String getRssUrl() {
+        return rssUrl;
+    }
+
+    public void setRssUrl(String rssUrl) {
+        this.rssUrl = rssUrl;
+    }
+
+    public int getRssTime() {
+        return rssTime;
+    }
+
+    public void setRssTime(int rssTime) {
+        this.rssTime = rssTime;
+    }
 }

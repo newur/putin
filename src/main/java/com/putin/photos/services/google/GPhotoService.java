@@ -49,7 +49,7 @@ public class GPhotoService {
         return photoUrls;
     }
 
-    public String changeToFullSizeUrl(String photoUrl){
+    private String changeToFullSizeUrl(String photoUrl){
         int lastIndex = photoUrl.lastIndexOf('/');
         return photoUrl.substring(0,lastIndex) + "/s0" + photoUrl.substring(lastIndex,photoUrl.length());
     }
