@@ -10,10 +10,12 @@
         <script src="/vue-components/pictures/pictures.js"></script>
         <script src="/vue-components/clock/clock.js"></script>
         <script src="/vue-components/calendar/calendar.js"></script>
+        <script src="/vue-components/feed/feed.js"></script>
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/vue-components/pictures/pictures.css">
         <link rel="stylesheet" href="/vue-components/clock/clock.css">
         <link rel="stylesheet" href="/vue-components/calendar/calendar.css">
+        <link rel="stylesheet" href="/vue-components/feed/feed.css">
     </head>
 
     <body class="body">
@@ -22,6 +24,8 @@
             <pictures :time="settings.pictureTime"></pictures>
             <clock :variant="settings.clockType"></clock>
             <calendar :variant="settings.calendarType"></calendar>
+            <feed></feed>
+
         </div>
 
     </body>

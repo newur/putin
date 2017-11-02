@@ -1,0 +1,14 @@
+#feed {
+    position: absolute;
+    top: 70%;
+    left: 32%;
+    width: 600px;
+}
+.feedTitle {
+    font-size: 30px;
+    color: #FFFFFF;
+}
+.feedText {
+    font-size: 20px;
+    color: #FFFFFF;
+}

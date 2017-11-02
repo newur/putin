@@ -60,7 +60,7 @@ class CalendarService {
         return CalendarDayBuilder.getCalendarDays(calendarEvents)
                 .stream()
                 .sorted(Comparator.comparing(CalendarDay::getDay))
-                .collect(toList()).subList(0,20);
+                .collect(toList()).subList(0,10);
     }
 
 }
