@@ -7,12 +7,12 @@
         <script src="/frameworks/vue.js"></script>
         <script src="authorization.js"></script>
         <script src="index.js"></script>
-        <script src="/vue-components/pictures/pictures.js"></script>
+        <script src="/vue-components/photos/photos.js"></script>
         <script src="/vue-components/clock/clock.js"></script>
         <script src="/vue-components/calendar/calendar.js"></script>
         <script src="/vue-components/feed/feed.js"></script>
         <link rel="stylesheet" href="/css/main.css">
-        <link rel="stylesheet" href="/vue-components/pictures/pictures.css">
+        <link rel="stylesheet" href="/vue-components/photos/photos.css">
         <link rel="stylesheet" href="/vue-components/clock/clock.css">
         <link rel="stylesheet" href="/vue-components/calendar/calendar.css">
         <link rel="stylesheet" href="/vue-components/feed/feed.css">
@@ -21,11 +21,10 @@
     <body class="body">
 
         <div id="main" class="main">
-            <pictures :time="settings.pictureTime"></pictures>
-            <clock :variant="settings.clockType"></clock>
-            <calendar :variant="settings.calendarType"></calendar>
-            <feed :time="settings.rssTime" :url="settings.rssUrl"></feed>
-
+            <photos :settings="settings.photoSettings"></photos>
+            <clock :settings="settings.clockSettings"></clock>
+            <calendar :settings="settings.calendarSettings"></calendar>
+            <feed :settings="settings.rssSettings"></feed>
         </div>
 
     </body>

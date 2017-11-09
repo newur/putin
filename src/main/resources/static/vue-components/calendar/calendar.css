@@ -1,3 +1,8 @@
-.calendardiv {
+.calendar-wrapper {
+    padding-left: 10px;
     overflow: hidden;
+}
+
+.calendar-days-eventsTable {
+    border-collapse: collapse;
 }

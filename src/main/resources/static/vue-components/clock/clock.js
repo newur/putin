@@ -1,12 +1,12 @@
 Vue.component("clock", {
-    template: `<div>
-                    <component :is="variant"></component>
+    template: `<div class="clock-wrapper">
+                    <component :is="settings.clockType"></component>
                </div>`,
-    props: ['variant']
+    props: ['settings']
 });
 
 Vue.component("digital", {
-	template: `<div id="clock">
+	template: `<div>
                    <p class="time">{{ time }}</p>
                    <p class="date">{{ date }}</p>
                </div>`,

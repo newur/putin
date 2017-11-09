@@ -1,4 +1,4 @@
-package com.putin.user;
+package com.putin.user.db;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 public class FileBasedUserProvider implements UserProvider {
 
     @Override
-    public User getUserSettings() {
+    public User getUser() {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         User user;
         try {
@@ -28,7 +28,7 @@ public class FileBasedUserProvider implements UserProvider {
     }
 
     @Override
-    public boolean setUserSettings(User user) {
+    public boolean setUser(User user) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             mapper.writeValue(new File(System.getenv("putin_credentials")+"/usersettings.yaml"), user);

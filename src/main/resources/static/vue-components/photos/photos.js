@@ -1,9 +1,9 @@
-Vue.component("pictures", {
+Vue.component("photos", {
     template: `<div class="bgvue">
                     <img id="bottom"/>
                     <img id="top"/>
                </div>`,
-    props: ['time'],
+    props: ['settings'],
     data: function(){
         return {
             topImgActive: '',
@@ -13,18 +13,18 @@ Vue.component("pictures", {
     },
     mounted: function(){
         var self = this;
-        $.getJSON( "/photoUrls", function( data ) {
+        $.getJSON( "/restGetPhotoUrls", function( data ) {
             self.images=data;
             self.unshownImages = self.images.slice();
             self.showFirst();
-            self.timerNext = setInterval(self.showNext,self.time*1000)
+            setTimeout(self.showNext, self.settings.photoTransitionTime*1000);
             self.timerReloadUrls = setInterval(self.getPhotoUrls,300000)
         });
     },
     methods: {
         getPhotoUrls: function(){
             var self = this;
-            $.getJSON( "/photoUrls", function( data ) {
+            $.getJSON( "/restGetPhotoUrls", function( data ) {
                 self.images=data;
                 self.unshownImages = self.images.slice();
             });
@@ -39,6 +39,7 @@ Vue.component("pictures", {
         },
         showNext: function() {
             var self = this;
+            setTimeout(self.showNext, self.settings.photoTransitionTime*1000);
             if(!topImgActive){
                 $( "#top" ).fadeIn( 1000, function() {
                     document.getElementById('bottom').src = self.nextPicture();

@@ -28,7 +28,7 @@ public class GoogleCalenderITest extends AbstractSeleniumTest {
 
     @Test
     public void openUserSettingWithFirefox() throws Exception {
-        driver.navigate().to(host + "usersettings.html");
+        driver.navigate().to(host + "settings.html");
         WebElement contactInput = wait.until(elementToBeClickable(By.xpath("//td[contains(text(), 'Contacts')]/../td/input[1]")));
 
         boolean isSelectedBeforeClick = contactInput.isSelected();

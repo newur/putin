@@ -6,7 +6,7 @@ import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.putin.authorization.services.google.GAuthorizationService;
 import com.putin.calendar.model.CalendarEvent;
-import com.putin.user.model.CalendarSetting;
+import com.putin.calendar.model.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +17,15 @@ import java.util.List;
 @Service
 public class GCalendarService {
 
-    private final GCalendarSettingFormatter formatter;
     private final GAuthorizationService gAuthorizationService;
 
     @Autowired
-    public GCalendarService(GCalendarSettingFormatter formatter, GAuthorizationService gAuthorizationService) {
-        this.formatter = formatter;
+    public GCalendarService(GAuthorizationService gAuthorizationService) {
         this.gAuthorizationService = gAuthorizationService;
     }
 
     public com.google.api.services.calendar.Calendar getCalendarService(String user) throws Exception {
-        Credential credential = gAuthorizationService.checkAuthorization(user);
+        Credential credential = gAuthorizationService.getFreshCredential(user);
         return new com.google.api.services.calendar.Calendar.Builder(gAuthorizationService.getHTTP_TRANSPORT(),
                 gAuthorizationService.getJSON_FACTORY(), credential)
                 .setApplicationName(gAuthorizationService.getAPPLICATION_NAME()).build();
@@ -51,7 +49,7 @@ public class GCalendarService {
         return GCalendarEventFormatter.standardizeCalendarEvents(events);
     }
 
-    public List<CalendarSetting> getCalendarSettings(String username) {
+    public List<Calendar> getCalendars(String username) {
         List<CalendarListEntry> calendars = new ArrayList<>();
         try {
             com.google.api.services.calendar.Calendar service = this.getCalendarService(username);
@@ -62,7 +60,7 @@ public class GCalendarService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return formatter.standardizeCalendarSettings(calendars);
+        return GCalendarFormatter.standardizeCalendarSettings(calendars);
     }
 
 }

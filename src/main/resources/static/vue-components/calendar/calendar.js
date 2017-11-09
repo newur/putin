@@ -1,8 +1,8 @@
 Vue.component("calendar", {
-    template: `<div class="calendardiv">
-                    <component :is="variant"></component>
+    template: `<div class="calendar-wrapper">
+                    <component :is="settings.calendarType"></component>
                </div>`,
-    props: ['variant']
+    props: ['settings']
 });
 
 Vue.component("events", {
@@ -33,7 +33,7 @@ Vue.component("events", {
     methods: {
         updateCalendar: function() {
             var self = this;
-            $.getJSON( "/calendarEvents", function( data ) {
+            $.getJSON( "/restGetCalendarEvents", function( data ) {
                 self.calendardata=data;
             });
         },
@@ -43,11 +43,11 @@ Vue.component("events", {
 Vue.component("days", {
     template: `<div>
                    <div v-for="day in this.calendardata">
-                        <div style="font-weight: 600; color: #F0FFFF;"> {{ day.dayPrefix }} {{ day.dayString }}
-                          <table>
-                              <tr v-for="dea in day.assignedCalendarEvents">
+                        <div style="font-weight: 400; font-size: 22px; color: #F0FFFF;"> {{ day.dayPrefix }} {{ day.dayString }}
+                          <table class="calendar-days-eventsTable">
+                              <tr  v-for="dea in day.assignedCalendarEvents">
                                   <td>
-                                      <div style="font-weight: 600" :style="{color: dea.calendarEvent.color}">{{dea.prefix}} {{dea.calendarEvent.name}} {{dea.suffix}}</div>
+                                      <div style="font-weight: 400; font-size: 22px;" :style="{color: dea.calendarEvent.color}">{{dea.prefix}} {{dea.calendarEvent.name}} {{dea.suffix}}</div>
                                   </td>
                               </tr>
                           </table>
@@ -67,7 +67,7 @@ Vue.component("days", {
     methods: {
         updateCalendar: function() {
             var self = this;
-            $.getJSON( "/calendarDays", function( data ) {
+            $.getJSON( "/restGetCalendarDays", function( data ) {
                 self.calendardata=data;
             });
         },

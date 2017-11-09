@@ -1,25 +1,22 @@
-package com.putin.user.model;
+package com.putin.calendar.model;
 
-public class CalendarSetting {
+public class Calendar {
 
     private String type;
     private String id;
     private String name;
     private String description;
     private String color;
-    private boolean selected;
 
-    public CalendarSetting() {
+    public Calendar() {
         // TODO
     }
 
-    public CalendarSetting(String type, String id, String name, String description, String color, boolean selected) {
+    public Calendar(String type, String id, String name, String description) {
         this.type = type;
         this.id = id;
         this.name = name;
         this.description = description;
-        this.color = color;
-        this.selected = selected;
     }
 
     public String getType() {
@@ -60,13 +57,5 @@ public class CalendarSetting {
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
     }
 }

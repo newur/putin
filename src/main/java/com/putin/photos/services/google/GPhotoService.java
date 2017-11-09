@@ -28,7 +28,7 @@ public class GPhotoService {
     }
 
     public PicasawebService getPicasawebService(String user) {
-        Credential credential = gAuthorizationService.checkAuthorization(user);
+        Credential credential = gAuthorizationService.getFreshCredential(user);
         PicasawebService picasawebService = new PicasawebService(gAuthorizationService.getAPPLICATION_NAME());
         picasawebService.setOAuth2Credentials(credential);
         return picasawebService;

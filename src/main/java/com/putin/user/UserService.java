@@ -1,84 +1,55 @@
 package com.putin.user;
 
 import com.putin.authorization.services.google.GAuthorizationService;
-import com.putin.calendar.services.google.*;
-import com.putin.user.model.CalendarSetting;
+import com.putin.calendar.services.google.GCalendarService;
+import com.putin.user.db.FileBasedUserProvider;
+import com.putin.user.db.UserProvider;
 import com.putin.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 class UserService {
 
     private final GAuthorizationService gAuthorizationService;
-    private final GCalendarService gCalendarService;
     private final UserProvider userProvider;
 
     @Autowired
-    public UserService(GAuthorizationService gAuthorizationService, GCalendarService gCalendarService) {
+    public UserService(GAuthorizationService gAuthorizationService) {
         this.userProvider = new FileBasedUserProvider();
         this.gAuthorizationService = gAuthorizationService;
-        this.gCalendarService = gCalendarService;
     }
 
-    @RequestMapping("/userExists")
-    public boolean userexists(){
-        User user = userProvider.getUserSettings();
-        return (user != null);
+    @RequestMapping("/restAuthorize")
+    public String authorize() throws IOException {
+        User user = userProvider.getUser();
+        if(user==null)
+            return "http://localhost:8080/createUser.html";
+        else{
+            return gAuthorizationService.checkGoogleAuthorization(user.getUsername());
+        }
     }
 
-    @RequestMapping("/getUser")
-    public User getusersettings(){
-        return userProvider.getUserSettings();
-    }
-
-    @ResponseBody
-    @RequestMapping("/saveUserSettings")
-    public boolean saveUserSettings(@RequestBody User user){
-        return userProvider.setUserSettings(user);
-    }
-
-    @RequestMapping("/createUserSettings")
-    public boolean createUser(@RequestParam("username") String username){
-        User user = new User();
-        user.setUsername(username);
-        user.setPictureTime(10);
-        userProvider.setUserSettings(user);
+    @RequestMapping("/restCreateUser")
+    public boolean createUser(@RequestParam("username") String username,
+                           @RequestParam("password") String password,
+                           @RequestParam("email") String email){
+        userProvider.setUser(new User(username, password, email));
         return true;
     }
 
-    @RequestMapping("/checkGoogleAuthorization")
-    public String checkGoogleAuthorization() {
-        User user = userProvider.getUserSettings();
-        if(gAuthorizationService.checkAuthorization(user.getUsername()) != null){
-            updateCalendarSettings();
-            return "success";
-        }
-        else
-            return gAuthorizationService.getGoogleLoginUri("http://localhost:8080/authorize");
+    @RequestMapping("/restGetUser")
+    public User getUser(){
+        return userProvider.getUser();
     }
 
-    @RequestMapping("/authorize")
-    public void handleReturnCode(HttpServletResponse response, @RequestParam("code") String code) throws IOException {
-        try {
-            gAuthorizationService.authorize(userProvider.getUserSettings().getUsername(), code, "http://localhost:8080/authorize");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        response.sendRedirect("http://localhost:8080/index.html");
-    }
-
-
-    private void updateCalendarSettings() {
-        User user = userProvider.getUserSettings();
-        List<CalendarSetting> calendarsSettings = gCalendarService.getCalendarSettings(user.getUsername());
-        user.setCalendarSettings(calendarsSettings);
-        userProvider.setUserSettings(user);
+    @ResponseBody
+    @RequestMapping("/restSaveUser")
+    public User saveUser(@RequestBody User user){
+        userProvider.setUser(user);
+        return userProvider.getUser();
     }
 
 }
