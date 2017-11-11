@@ -17,8 +17,8 @@ class UserService {
     private final UserProvider userProvider;
 
     @Autowired
-    public UserService(GAuthorizationService gAuthorizationService) {
-        this.userProvider = new FileBasedUserProvider();
+    public UserService(GAuthorizationService gAuthorizationService, UserProvider userProvider) {
+        this.userProvider = userProvider;
         this.gAuthorizationService = gAuthorizationService;
     }
 
@@ -36,7 +36,11 @@ class UserService {
     public boolean createUser(@RequestParam("username") String username,
                            @RequestParam("password") String password,
                            @RequestParam("email") String email){
-        userProvider.setUser(new User(username, password, email));
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        userProvider.setUser(user);
         return true;
     }
 

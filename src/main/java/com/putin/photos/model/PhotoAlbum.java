@@ -1,38 +1,25 @@
 package com.putin.photos.model;
 
+import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+@Data
 public class PhotoAlbum {
 
-    private String name;
+    @Id
+    @GeneratedValue
     private String id;
+
+    private String name;
     private boolean selected;
 
     public PhotoAlbum(String id, String name, boolean selected) {
         this.name = name;
         this.id = id;
-        this.selected = selected;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
