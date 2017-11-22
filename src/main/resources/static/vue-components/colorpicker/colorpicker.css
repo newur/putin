@@ -6,7 +6,7 @@
 .wrapper-dropdown > span {
 	display: block;
 	border: 1px solid #ababab;
-	padding: 5px;
+	padding: 0px;
 }
 .wrapper-dropdown > span > span {
     padding: 0 12px;

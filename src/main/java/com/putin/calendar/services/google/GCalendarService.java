@@ -60,7 +60,9 @@ public class GCalendarService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return GCalendarFormatter.standardizeCalendarSettings(calendars);
+        return GCalendarFormatter.standardizeCalendars(calendars);
     }
+
+
 
 }

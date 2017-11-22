@@ -111,5 +111,14 @@ public class CalendarEvent {
         return ((int) DAYS.between(start.toLocalDate(), end.toLocalDate()) + 1);
     }
 
-
+    @Override
+    public String toString() {
+        return "CalendarEvent{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }

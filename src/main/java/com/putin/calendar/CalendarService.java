@@ -3,7 +3,9 @@ package com.putin.calendar;
 import com.putin.calendar.model.Calendar;
 import com.putin.calendar.model.CalendarDay;
 import com.putin.calendar.model.CalendarEvent;
+import com.putin.calendar.model.CalendarProvider;
 import com.putin.calendar.services.google.GCalendarService;
+import com.putin.calendar.services.ical4j.BiweeklyService;
 import com.putin.calendar.util.CalendarDayBuilder;
 import com.putin.calendar.util.CalendarEventAdapter;
 import com.putin.user.db.UserProvider;
@@ -39,7 +41,7 @@ public class CalendarService {
         List<CalendarEvent> calendarEvents = new ArrayList<>();
         for(Calendar calendar : user.getCalendarSettings().getCalendars()){
             calendarEvents.addAll(CalendarEventAdapter.addCalenderSettingsToEvent(
-                    gCalendarService.getCalendarEvents(user.getUsername(), calendar.getId()),
+                    gCalendarService.getCalendarEvents(user.getUsername(), calendar.getUrl()),
                     calendar));
         }
         return calendarEvents.stream()
@@ -51,10 +53,17 @@ public class CalendarService {
     public List<CalendarDay> getCalendarDays(){
         User user = userProvider.getUser();
         List<CalendarEvent> calendarEvents = new ArrayList<>();
-        for(Calendar calendar : user.getCalendarSettings().getCalendars()){
-            calendarEvents.addAll(CalendarEventAdapter.addCalenderSettingsToEvent(
-                    gCalendarService.getCalendarEvents(user.getUsername(), calendar.getId()),
-                    calendar));
+        List<Calendar> calendars = user.getCalendarSettings().getCalendars();
+        for(Calendar calendar : calendars){
+            if(calendar.getType().equals(CalendarProvider.GOOGLE.getName())){
+                calendarEvents.addAll(CalendarEventAdapter.addCalenderSettingsToEvent(
+                        gCalendarService.getCalendarEvents(user.getUsername(), calendar.getUrl()),calendar));
+            }
+            else if(calendar.getType().equals(CalendarProvider.ICALENDAR.getName())){
+                BiweeklyService biweeklyService = new BiweeklyService();
+                calendarEvents.addAll(CalendarEventAdapter.addCalenderSettingsToEvent(
+                        biweeklyService.getCalendarEvents(calendar.getUrl()),calendar));
+            }
         }
         int max = (user.getCalendarSettings().getMaxDays() <= calendarEvents.size()) ?
                 user.getCalendarSettings().getMaxDays(): calendarEvents.size();
@@ -69,7 +78,7 @@ public class CalendarService {
         User user = userProvider.getUser();
         List<Calendar> availableCalendars = gCalendarService.getCalendars(user.getUsername());
 
-        Set<String> selectedCalendarIds =
+        Set<Long> selectedCalendarIds =
                 user.getCalendarSettings().getCalendars().stream()
                         .map(Calendar::getId)
                         .collect(toSet());

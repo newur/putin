@@ -8,22 +8,30 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 public class PhotoSettings {
 
     @Id
     @GeneratedValue
     private Long id;
-
-    public PhotoSettings(){
-        //TODO
-    }
-
     private int photoTransitionTime;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<PhotoAlbum> photoAlbums = new ArrayList<>();
+
+    public PhotoSettings(){
+        //TODO
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public int getPhotoTransitionTime() {
         return photoTransitionTime;
@@ -41,11 +49,4 @@ public class PhotoSettings {
         this.photoAlbums = photoAlbums;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

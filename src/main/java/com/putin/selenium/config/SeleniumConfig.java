@@ -1,9 +1,9 @@
-package com.putin.selenium.config;
-
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-public class SeleniumConfig {
+//package com.putin.selenium.config;
+//
+//import org.springframework.context.annotation.Configuration;
+//
+//@Configuration
+//public class SeleniumConfig {
 
 //    @Bean
 //    public WebDriver webDriver() {
@@ -15,4 +15,4 @@ public class SeleniumConfig {
 //    public WebDriverWait webDriverWait() {
 //        return new WebDriverWait(webDriver(), 10);
 //    }
-}
+//}

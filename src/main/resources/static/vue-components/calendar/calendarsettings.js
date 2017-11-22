@@ -2,7 +2,7 @@ Vue.component("calendarsettings", {
     template: `<div>
                    <div class="settingsbox">
                         <div class="settingsboxtitle">
-                            <span>Kalenderlayout</span>
+                            <span>Anzeigeeinstellungen</span>
                         </div>
                         <div class="settingsoption">
                             <span class="settingslabel">
@@ -28,35 +28,39 @@ Vue.component("calendarsettings", {
 
                    <div class="settingsbox">
                        <div class="settingsboxtitle">
-                           <span>Ausgewählte Kalender</span>
+                           <span>Meine Kalender</span>
                        </div>
                        <div class="settingsoption">
                            <table id="selectedCalendarsTable" border="0" style="text-align:left">
                               <tbody>
                                   <tr v-for="calendar in settings.calendarSettings.calendars">
                                       <td><img width="16" :src="typeimg(calendar.type)"></img></td>
-                                      <td>{{ calendar.name }}</td>
-                                      <td><color-picker-dropdown v-model="calendar.color" :initial="calendar.color" ></color-picker-dropdown></td>
-                                      <td><button @click="removeCalendar(calendar)">Remove</button></td>
+                                      <td><input v-model="calendar.name" style="width: 100px;"/></td>
+                                      <td><input v-model="calendar.url" style="width: 400px;"/></td>
+                                      <td><color-picker-dropdown v-model="calendar.color" :initial="calendar.color"></color-picker-dropdown></td>
+                                      <td><button @click="removeCalendar(calendar)">Entfernen</button></td>
                                   </tr>
                               </tbody>
                           </table>
+                          <button @click="setCalendarType('google')">Google-Kalender hinzufügen</button>
+                          <button @click="setCalendarType('icalendar')">Kalender per iCal-Url hinzufügen</button>
                        </div>
-                   </div>
-                   <div class="settingsbox">
-                       <div class="settingsboxtitle">
-                           <span>Kalender hinzufügen</span>
+                       <div class="settingsoption" v-if="selectedCalendarType==='icalendar'">
+                             <tbody>
+                                 <tr>
+                                     <td><img width="16" :src="typeimg(selectedCalendarType)"></img></td>
+                                     <td><input v-model="newICal.name" style="width: 100px;"/></td>
+                                     <td><input v-model="newICal.url" style="width: 400px;"/></td>
+                                     <td><color-picker-dropdown v-model="newICal.color" :initial="newICal.color"></color-picker-dropdown></td>
+                                     <td><button @click="addICalendar()">Hinzufügen</button></td>
+                                 </tr>
+                             </tbody>
                        </div>
-                       <div class="settingsoption">
-                          <div>
-                              <a @click="setCalendarType('google')"><img width="32" src="/img/google_icon_128.png"></img></a>
-                              <a @click="setCalendarType('google')"><img width="32" src="/img/icalendar_icon_128.png"></img></a>
-                          </div>
-                          <div v-for="calendar in availableCalendars" v-if="calendar.type===selectedCalendarType">
-                              <span>{{ calendar.id }}</span>
-                              <span>{{ calendar.name }}</span>
-                              <button @click="addCalendar(calendar)">Add</button>
-                          </div>
+                       <div class="settingsoption" v-if="selectedCalendarType==='google'">
+                            <div v-for="calendar in availableCalendars">
+                                 <button @click="addCalendar(calendar)">Hinzufügen</button>
+                                 <span>{{ calendar.name }}</span>
+                            </div>
                        </div>
                    </div>
 
@@ -65,6 +69,12 @@ Vue.component("calendarsettings", {
     props: ['settings'],
     data: function(){
         return {
+            newICal: {
+                url: '',
+                type: 'icalendar',
+                name: '',
+                color: '#000000'
+            },
             availableCalendars: [],
             selectedCalendarType: ''
         }
@@ -72,7 +82,14 @@ Vue.component("calendarsettings", {
     methods:{
         setCalendarType: function(type){
           this.selectedCalendarType=type;
-          this.loadAvailableCalendars();
+          if(type!=='icalendar'){
+            this.loadAvailableCalendars();
+          }
+          else{
+            this.newICal.id='';
+            this.newICal.name='';
+            this.newICal.description='';
+          }
         },
         addCalendar: function(calendar){
           this.settings.calendarSettings.calendars.push(calendar);
@@ -80,10 +97,13 @@ Vue.component("calendarsettings", {
                                         return e.id != calendar.id;
                                      });
         },
+        addICalendar: function(){
+           this.settings.calendarSettings.calendars.push(this.newICal);
+        },
         removeCalendar: function(calendar){
           this.settings.calendarSettings.calendars =
                         $.grep(this.settings.calendarSettings.calendars, function(e){
-                            return e.id != calendar.id;
+                            return e.url != calendar.url;
                         });
           this.availableCalendars.push(calendar);
         },
@@ -98,6 +118,10 @@ Vue.component("calendarsettings", {
         },
         save: function(){
             this.$parent.$options.methods.save(this.settings);
+        },
+        hideAddCalendarWizard: function(){
+            this.overlay='hidden';
+            this.selectedCalendarType = '';
         }
     }
 });

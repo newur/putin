@@ -6,21 +6,58 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
 @Data
+@Entity
 public class PhotoAlbum {
 
     @Id
     @GeneratedValue
-    private String id;
+    private long id;
 
+    private String type;
+    private String url;
     private String name;
-    private boolean selected;
 
-    public PhotoAlbum(String id, String name, boolean selected) {
+    public PhotoAlbum(){
+        //TODO
+    }
+
+    public PhotoAlbum(String type, String name, String url) {
+        this.type = type;
         this.name = name;
+        this.url = url;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
         this.id = id;
-        this.selected = selected;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -28,7 +65,6 @@ public class PhotoAlbum {
         return "PhotoAlbum{" +
                 "name='" + name + '\'' +
                 ", id='" + id + '\'' +
-                ", selected=" + selected +
                 '}';
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +35,12 @@ public class GPhotoService {
         return picasawebService;
     }
 
-    public List<String> getPhotoUrls(String user, String googleuser, String albumId) throws IOException, ServiceException {
+    public List<String> getPhotoUrls(String user, String albumUrl) throws IOException, ServiceException {
         PicasawebService picasawebService = this.getPicasawebService(user);
 
-        URL feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/"+googleuser+"/albumid/"+albumId);
+        String googleuser = gAuthorizationService.getEmail(user);
+
+        URL feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/"+googleuser+"/albumid/"+albumUrl);
         AlbumFeed feed = picasawebService.getFeed(feedUrl, AlbumFeed.class);
 
         List<String> photoUrls = new ArrayList<>();
@@ -54,12 +57,23 @@ public class GPhotoService {
         return photoUrl.substring(0,lastIndex) + "/s0" + photoUrl.substring(lastIndex,photoUrl.length());
     }
 
-    public List<PhotoAlbum> getAlbums(String user, String googleuser) throws IOException, ServiceException {
+    public List<PhotoAlbum> getAlbums(String user) {
         PicasawebService picasawebService = this.getPicasawebService(user);
 
-        URL feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/"+googleuser+"?kind=album");
-        UserFeed myUserFeed = picasawebService.getFeed(feedUrl, UserFeed.class);
+        String googleuser = gAuthorizationService.getEmail(user);
 
+        URL feedUrl = null;
+        UserFeed myUserFeed = null;
+        try {
+            feedUrl = new URL("https://picasaweb.google.com/data/feed/api/user/"+googleuser+"?kind=album");
+            myUserFeed = picasawebService.getFeed(feedUrl, UserFeed.class);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return GAlbumFormatter.getPhotoAlbums(myUserFeed.getEntries());
     }
 

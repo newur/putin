@@ -36,10 +36,7 @@ class UserService {
     public boolean createUser(@RequestParam("username") String username,
                            @RequestParam("password") String password,
                            @RequestParam("email") String email){
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
+        User user = new User(username,password,email);
         userProvider.setUser(user);
         return true;
     }

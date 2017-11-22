@@ -1,14 +1,14 @@
 package com.putin.calendar.model;
 
 
-public enum Provider {
+public enum CalendarProvider {
 
     GOOGLE("google"),
     ICALENDAR("icalendar");
 
     private String name;
 
-    Provider(String name) {
+    CalendarProvider(String name) {
         this.name = name;
     }
 

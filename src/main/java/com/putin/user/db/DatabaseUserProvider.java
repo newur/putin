@@ -10,19 +10,19 @@ import java.util.List;
 
 @Service
 @Primary
-public class UserProviderImpl implements UserProvider {
+public class DatabaseUserProvider implements UserProvider {
 
     private UserRepository userRepository;
 
     @Autowired
-    public UserProviderImpl(UserRepository userRepository) {
+    public DatabaseUserProvider(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public User getUser() {
         List<User> users = userRepository.findAll();
-        return users.size() > 0 ? users.get(0) : new User();
+        return users.size() > 0 ? users.get(0) : null;
     }
 
     @Override
